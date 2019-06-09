@@ -13,13 +13,91 @@ export default new Router({
       name: 'home',
       component: Home
     },
+    // {
+    //   path: '/about',
+    //   name: 'about',
+    //   // route level code-splitting
+    //   // this generates a separate chunk (about.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    // },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
+      path: '/nav',
+      name: 'nav',
+      component: () => import ('@/views/Nav.vue'),
+      children:[
+        {
+         path:'/welcome',
+         name:'welcome',
+         component:()=>import("@/views/Welcome.vue")
+        },
+        {
+          path:'/userManage',
+          name:'userManage',
+          component:()=>import("@/views/BusinessManage/UserManage.vue")
+         },
+        {
+          path:'/debtManage',
+          name:'debtManage',
+          component:()=>import("@/views/BusinessManage/DebtManage.vue")
+         },
+         {
+          path:'/nameApprove',
+          name:'nameApprove',
+           component:()=>import("@/views/BusinessManage/NameApprove.vue")
+         },
+         {
+          path:'/productManage',
+          name:'productManage',
+          component:()=>import("@/views/BusinessManage/DebtManage.vue")
+         },
+         {
+          path:'/contentManage',
+          name:'contentManage',
+           component:()=>import("@/views/OperatManage/ContentManage.vue")
+         },
+         {
+          path:'/messageList',
+          name:'messageList',
+           component:()=>import("@/views/OperatManage/MessageList.vue")
+         },{
+          path:'/bankManage',
+          name:'bankManage',
+           component:()=>import("@/views/OperatManage/BankManage.vue")
+         },{
+          path:'/paraManage',
+          name:'paraManage',
+           component:()=>import("@/views/OperatManage/ParaManage.vue")
+         },{
+          path:'/opinionFeed',
+          name:'opinionFeed',
+           component:()=>import("@/views/OperatManage/OpinionFeed.vue")
+         },{
+          path:'/editionManage',
+          name:'editionManage',
+           component:()=>import("@/views/OperatManage/EditionManage.vue")
+         },{
+          path:'/saleCensus',
+          name:'saleCensus',
+           component:()=>import("@/views/DateMessage/SaleCensus.vue")
+         },{
+          path:'/idPwd',
+          name:'idPwd',
+           component:()=>import("@/views/BackstageManage/IdPwd.vue")
+         },{
+          path:'/revisePwd',
+          name:'revisePwd',
+           component:()=>import("@/views/BackstageManage/RevisePwd.vue")
+         },{
+          path:'/roleManage',
+          name:'roleManage',
+           component:()=>import("@/views/BackstageManage/RoleManage.vue")
+         },{
+          path:'/moduleManage',
+          name:'moduleManage',
+           component:()=>import("@/views/BackstageManage/ModuleManage.vue")
+         },
+      ]
+    },
   ]
 })
