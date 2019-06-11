@@ -3,12 +3,8 @@
     <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-    </div> -->
-<<<<<<< HEAD
-    <router-view/>  
-=======
+    </div> --> 
     <router-view/>
->>>>>>> fdd86390f2b135d592a531ef7ee3199f9fbfef34
   </div>
 </template>
 

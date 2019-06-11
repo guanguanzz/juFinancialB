@@ -32,7 +32,7 @@ export default new Router({
     // },
     {
 
-      path: '/',
+      // path: '/',
       path: '/nav',
       name: 'nav',
       component: () => import ('@/views/Nav.vue'),
