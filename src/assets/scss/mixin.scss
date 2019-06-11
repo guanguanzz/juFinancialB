@@ -1,0 +1,10 @@
+// 混合器：
+@mixin w-h($w,$h) {
+    width: $w;
+    height: $h;
+}
+@mixin flex($j, $a) {
+    display: flex;
+    justify-content: $j;
+    align-items: $a;  
+} 

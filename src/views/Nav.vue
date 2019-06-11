@@ -16,6 +16,7 @@
         components: {
             topBar,
             sideNav,
+          
         }
     }
 </script>

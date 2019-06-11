@@ -1,5 +1,5 @@
 <template>
-    <div>dfsdfsd</div>
+    <div>查看实名</div>
 </template>
 <script>
 export default {

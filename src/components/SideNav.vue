@@ -43,10 +43,10 @@
           index: '1',
           items: [{
             name: '用户管理',
-            path: 'userManage'
+            path: 'userList'
           }, {
             name: '实名认证',
-            path: 'nameApprove'
+            path: 'nameList'
           }, {
             name: '产品管理',
             path: 'productManage'

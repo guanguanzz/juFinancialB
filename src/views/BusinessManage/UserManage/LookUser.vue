@@ -1,5 +1,5 @@
 <template>
-    <div>123123</div>
+    <div>查看用户</div>
 </template>
 <script>
 export default {

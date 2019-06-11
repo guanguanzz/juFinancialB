@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+// import Home from './views/Home.vue'
 
 Vue.use(Router)
 
@@ -8,11 +8,11 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
+    // {
+    //   path: '/',
+    //   name: 'home',
+    //   component: Home
+    // },
     // {
     //   path: '/about',
     //   name: 'about',
@@ -22,7 +22,7 @@ export default new Router({
     //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     // },
     {
-      path: '/nav',
+      path: '/',
       name: 'nav',
       component: () => import ('@/views/Nav.vue'),
       children:[
@@ -32,9 +32,9 @@ export default new Router({
          component:()=>import("@/views/Welcome.vue")
         },
         {
-          path:'/userManage',
-          name:'userManage',
-          component:()=>import("@/views/BusinessManage/UserManage.vue")
+          path:'/UserList',
+          name:'userList',
+          component:()=>import("@/views/BusinessManage/UserManage/UserList.vue")
          },
         {
           path:'/debtManage',
@@ -42,9 +42,9 @@ export default new Router({
           component:()=>import("@/views/BusinessManage/DebtManage.vue")
          },
          {
-          path:'/nameApprove',
-          name:'nameApprove',
-           component:()=>import("@/views/BusinessManage/NameApprove.vue")
+          path:'/NameList',
+          name:'NameList',
+           component:()=>import("@/views/BusinessManage/NameApprove/NameList.vue")
          },
          {
           path:'/productManage',
