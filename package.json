@@ -12,10 +12,6 @@
     "element-ui": "^2.9.1",
     "vue": "^2.6.10",
     "vue-better-calendar": "^1.3.2",
-<<<<<<< HEAD
-    "vue-cli-plugin-style-resources-loader": "^0.1.3",
-=======
->>>>>>> fdd86390f2b135d592a531ef7ee3199f9fbfef34
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
   },
@@ -24,10 +20,6 @@
     "@vue/cli-service": "^3.8.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
-<<<<<<< HEAD
-    "style-resources-loader": "^1.2.1",
-=======
->>>>>>> fdd86390f2b135d592a531ef7ee3199f9fbfef34
     "vue-template-compiler": "^2.6.10"
   }
 }

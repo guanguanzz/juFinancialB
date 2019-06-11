@@ -1,7 +1,7 @@
 <template>
     <div class='topBar'>
         <div class="icon-wrap" @click="navCollapse">
-
+            <!-- <i class="el-icon-s-operation"></i> -->
             <i
                 v-bind:class="{'el-icon-s-fold' : !$store.state.isCollapse , 'el-icon-s-unfold' : $store.state.isCollapse}"></i>
         </div>
@@ -15,7 +15,6 @@
 <script>
     export default {
         methods: {
-            
             navCollapse() {
                 this.$store.state.isCollapse = !this.$store.state.isCollapse
                 console.log(this.$store.state.isCollapse)
