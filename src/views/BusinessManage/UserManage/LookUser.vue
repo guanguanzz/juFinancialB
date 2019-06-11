@@ -1,5 +1,5 @@
 <template>
-    <div>查看用户</div>
+    <div>查看用户吗？</div>
 </template>
 <script>
 export default {
