@@ -4,7 +4,10 @@
             <sideNav></sideNav>
             <div class="right">
                 <topBar></topBar>
-                <router-view></router-view>
+                <div class="main-content">
+
+                <router-view :key='key'></router-view>
+                </div>
             </div>
         </div>
     </div>
@@ -16,18 +19,37 @@
         components: {
             topBar,
             sideNav,
+        },
+       data: function () {
+
+            return {
+                activeDate: 1
+            }
+
+        },
+        computed: {
+            key() {
+                
+                return new Date().getTime()
+            }
         }
     }
 </script>
 <style lang="scss" scoped>
-
     .content {
         display: flex;
-        min-height:100vh;
-        .right{
-            flex-grow:1;
+        min-height: 100vh;
+
+        .right {
+            flex-grow: 1;
         }
     }
-
-  
+.main-content{
+    box-sizing: border-box;
+    padding:30px;
+    background-color: #F0F2F5;
+    min-height:calc(100vh - 50px);
+   
+}
+    
 </style>
