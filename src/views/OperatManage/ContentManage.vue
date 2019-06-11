@@ -3,7 +3,6 @@
         <div class='form-horizontal'>
             <el-row :gutter='20'>
                 <el-col :span='6'>
-
                     <div class='form-group'>
                         <el-col :span='8' type="flex" justify="end">
                             <label class="form-lable">标题</label>
@@ -16,14 +15,13 @@
                 </el-col>
                 <el-col :span='6'>
                     <div class='form-group'>
-
                         <el-col :span='8' type="flex" justify="end">
                             <label class="form-lable">编辑者</label>
                         </el-col>
                         <el-col :span='16'>
                             <el-input v-model="author"></el-input>
                         </el-col>
- 
+
                     </div>
                 </el-col>
                 <el-col :span='12'>
@@ -52,7 +50,7 @@
 
 
             <el-row :gutter='20'>
-                 <el-col :span='6'>
+                <el-col :span='6'>
                     <div class='form-group'>
 
                         <el-col :span='8' type="flex" justify="end">
@@ -60,7 +58,8 @@
                         </el-col>
                         <el-col :span='16'>
                             <el-select v-model="statuSelected">
-                              <el-option v-for='(statu,index) in status' :key='index'  :label="statu.message" :value='statu.value'></el-option>
+                                <el-option v-for='(statu,index) in status' :key='index' :label="statu.message"
+                                    :value='statu.value'></el-option>
 
                             </el-select>
                         </el-col>
@@ -75,13 +74,14 @@
                         </el-col>
                         <el-col :span='16'>
                             <el-select v-model="typeSelected">
-                                <el-option v-for='(type,index) in types' :key='index'  :label="type.message" :value='type.value'></el-option>
+                                <el-option v-for='(type,index) in types' :key='index' :label="type.message"
+                                    :value='type.value'></el-option>
                             </el-select>
                         </el-col>
                     </div>
 
                 </el-col>
-               
+
                 <el-col :span='10' :offset='2'>
                     <el-button type="danger" round>清空</el-button>
                     <el-button type="success" round>搜索</el-button>
@@ -114,9 +114,9 @@
                         <td>{{list.update_by}}</td>
                         <td>{{list.update_at}}</td>
                         <td>
-                            <el-button size='mini' >下线</el-button>
-                            <el-button size='mini' >编辑</el-button>
-                            <el-button size='mini' >删除</el-button>
+                            <el-button size='mini'>下线</el-button>
+                            <el-button size='mini'>编辑</el-button>
+                            <el-button size='mini'>删除</el-button>
                         </td>
                     </tr>
                 </table>
@@ -130,34 +130,34 @@
         data: function () {
             return {
                 title: "",
-                author:'',
-                creatAt:'',
-                creatEnd:'',
+                author: '',
+                creatAt: '',
+                creatEnd: '',
                 lists: '',
-                statuSelected:'',
-                status:[{
-                    message:'全部',
-                    value:''
-                },{
-                    message:'草稿',
-                    value:'0'
-                },{
-                    message:'上线',
-                    value:'1'
+                statuSelected: '',
+                status: [{
+                    message: '全部',
+                    value: ''
+                }, {
+                    message: '草稿',
+                    value: '0'
+                }, {
+                    message: '上线',
+                    value: '1'
                 }],
-                typeSelected:'',
-                types:[{
-                    message:'全部',
-                    value:''
-                },{
-                    message:'banner推荐',
-                    value:'banner推荐'
-                },{
-                    message:'帮助中心',
-                    value:'帮助中心'
-                },{
-                    message:'关于我们',
-                    value:'关于我们'
+                typeSelected: '',
+                types: [{
+                    message: '全部',
+                    value: ''
+                }, {
+                    message: 'banner推荐',
+                    value: 'banner推荐'
+                }, {
+                    message: '帮助中心',
+                    value: '帮助中心'
+                }, {
+                    message: '关于我们',
+                    value: '关于我们'
                 }],
 
 
