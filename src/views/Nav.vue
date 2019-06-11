@@ -44,6 +44,7 @@
             flex-grow: 1;
         }
     }
+<<<<<<< HEAD
 .main-content{
     box-sizing: border-box;
     padding:30px;
@@ -52,4 +53,8 @@
    
 }
     
+=======
+
+  //jiajiaTest
+>>>>>>> fdd86390f2b135d592a531ef7ee3199f9fbfef34
 </style>

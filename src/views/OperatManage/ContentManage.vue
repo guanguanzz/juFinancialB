@@ -114,9 +114,9 @@
                         <td>{{list.update_by}}</td>
                         <td>{{list.update_at}}</td>
                         <td>
-                            <el-button size='mini' >下线</el-button>
-                            <el-button size='mini' >编辑</el-button>
-                            <el-button size='mini' >删除</el-button>
+                            <el-button size='mini'>下线</el-button>
+                            <el-button size='mini'>编辑</el-button>
+                            <el-button size='mini'>删除</el-button>
                         </td>
                     </tr>
                 </table>
@@ -130,34 +130,34 @@
         data: function () {
             return {
                 title: "",
-                author:'',
-                creatAt:'',
-                creatEnd:'',
+                author: '',
+                creatAt: '',
+                creatEnd: '',
                 lists: '',
-                statuSelected:'',
-                status:[{
-                    message:'全部',
-                    value:''
-                },{
-                    message:'草稿',
-                    value:'0'
-                },{
-                    message:'上线',
-                    value:'1'
+                statuSelected: '',
+                status: [{
+                    message: '全部',
+                    value: ''
+                }, {
+                    message: '草稿',
+                    value: '0'
+                }, {
+                    message: '上线',
+                    value: '1'
                 }],
-                typeSelected:'',
-                types:[{
-                    message:'全部',
-                    value:''
-                },{
-                    message:'banner推荐',
-                    value:'banner推荐'
-                },{
-                    message:'帮助中心',
-                    value:'帮助中心'
-                },{
-                    message:'关于我们',
-                    value:'关于我们'
+                typeSelected: '',
+                types: [{
+                    message: '全部',
+                    value: ''
+                }, {
+                    message: 'banner推荐',
+                    value: 'banner推荐'
+                }, {
+                    message: '帮助中心',
+                    value: '帮助中心'
+                }, {
+                    message: '关于我们',
+                    value: '关于我们'
                 }],
 
 
