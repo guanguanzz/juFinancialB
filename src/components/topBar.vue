@@ -9,7 +9,7 @@
             <li>管理员</li>
             <li>admin</li>
             <li>注销</li>
-        </ul>
+        </ul>   
     </div>
 </template>
 <script>
