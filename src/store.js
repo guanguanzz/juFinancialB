@@ -8,7 +8,7 @@ export default new Vuex.Store({
      isCollapse:false
   },
   mutations: {
-
+        
   },
   actions: {
 

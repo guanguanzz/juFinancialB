@@ -15,6 +15,7 @@
 <script>
     export default {
         methods: {
+            
             navCollapse() {
                 this.$store.state.isCollapse = !this.$store.state.isCollapse
                 console.log(this.$store.state.isCollapse)

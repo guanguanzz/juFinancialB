@@ -4,6 +4,7 @@
         <div class='form-horizontal'>
             <el-row :gutter='20'>
                 <el-col :span='6'>
+
                     <div class='form-group'>
                         <el-col :span='8' type="flex" justify="end">
                             <label class="form-lable">标题</label>
@@ -16,6 +17,7 @@
                 </el-col>
                 <el-col :span='6'>
                     <div class='form-group'>
+
                         <el-col :span='8' type="flex" justify="end">
                             <label class="form-lable">编辑者</label>
                         </el-col>
@@ -51,7 +53,7 @@
 
 
             <el-row :gutter='20'>
-                <el-col :span='6'>
+                 <el-col :span='6'>
                     <div class='form-group'>
 
                         <el-col :span='8' type="flex" justify="end">
@@ -59,8 +61,7 @@
                         </el-col>
                         <el-col :span='16'>
                             <el-select v-model="statuSelected">
-                                <el-option v-for='(statu,index) in status' :key='index' :label="statu.message"
-                                    :value='statu.value'></el-option>
+                              <el-option v-for='(statu,index) in status' :key='index'  :label="statu.message" :value='statu.value'></el-option>
 
                             </el-select>
                         </el-col>
@@ -75,14 +76,13 @@
                         </el-col>
                         <el-col :span='16'>
                             <el-select v-model="typeSelected">
-                                <el-option v-for='(type,index) in types' :key='index' :label="type.message"
-                                    :value='type.value'></el-option>
+                                <el-option v-for='(type,index) in types' :key='index'  :label="type.message" :value='type.value'></el-option>
                             </el-select>
                         </el-col>
                     </div>
 
                 </el-col>
-
+               
                 <el-col :span='10' :offset='2'>
                     <el-button type="danger" round>清空</el-button>
                     <el-button type="success" round>搜索</el-button>

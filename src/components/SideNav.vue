@@ -8,7 +8,18 @@
 
     <el-menu default-active="welcome" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
       :collapse="$store.state.isCollapse" :router='true'>
-      <div class="topBar-brand">理财管理平台</div>
+
+
+      <!-- <div class="topBar-brand"> 
+        <img src='../assets/img/Logo.jpg'>  
+         </div>
+      -->
+
+      <el-menu-item class="logo">
+        <img src='../assets/img/Logo.jpg' class='topBar-brand'>
+        <img v-show='!$store.state.isCollapse' src='../assets/img/Word.jpg' class='topBar-brand'>
+      </el-menu-item>
+
 
       <el-menu-item index='welcome'>
         <i class="iconfont icon-zhuye"></i>
@@ -22,11 +33,9 @@
           <span slot="title">{{menu.title}}</span>
         </template>
 
-      
-          <el-menu-item class='title' :disabled=true v-show='$store.state.isCollapse'>{{menu.title}}</el-menu-item>
-          <el-menu-item v-for='(item,index) in menu.items' :key='index' :index='item.path'>{{item.name}}</el-menu-item>
+        <el-menu-item class='title' :disabled=true v-show='$store.state.isCollapse'>{{menu.title}}</el-menu-item>
+        <el-menu-item v-for='(item,index) in menu.items' :key='index' :index='item.path'>{{item.name}}</el-menu-item>
 
-     
       </el-submenu>
 
     </el-menu>
@@ -107,7 +116,6 @@
     },
     methods: {
       handleOpen(key, keyPath) {
-        console.log(this.isCollapse)
         console.log(key, keyPath);
       },
       handleClose(key, keyPath) {
@@ -118,19 +126,26 @@
 </script>
 <style lang="scss" scoped>
   .topBar-brand {
-    min-height: 50px;
-    line-height: 50px;
-    text-align: center;
+    margin: 0 7px;
 
+  }
+
+  .logo {
+    padding-left: 0px !important;
+    cursor: default;
+
+    &:hover {
+      background-color: #fff;
+    }
   }
 
   .title {
     color: red;
     font-size: 25px !important;
-    height:60px !important;
+    height: 60px !important;
     line-height: 60px !important;
     cursor: default;
-    
+
   }
 
 
