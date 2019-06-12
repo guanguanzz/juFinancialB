@@ -7,7 +7,7 @@
         <ul>
             <li>管理员</li>
             <li>admin</li>
-            <li>注销de</li>
+            <li>注销</li>
         </ul>   
     </div>
 </template>
