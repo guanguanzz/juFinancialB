@@ -13,7 +13,7 @@
     </div>
 </template>
 <script>
-    import topBar from '@/components/TopBar.vue'
+    import topBar from '@/components/TopNav.vue'
     import sideNav from '@/components/SideNav.vue'
     export default {
         components: {
