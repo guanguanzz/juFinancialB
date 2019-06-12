@@ -1,4 +1,3 @@
-
 <template>
     <div>
         <div class='form-horizontal'>
@@ -53,7 +52,7 @@
 
 
             <el-row :gutter='20'>
-                 <el-col :span='6'>
+                <el-col :span='6'>
                     <div class='form-group'>
 
                         <el-col :span='8' type="flex" justify="end">
@@ -61,7 +60,8 @@
                         </el-col>
                         <el-col :span='16'>
                             <el-select v-model="statuSelected">
-                              <el-option v-for='(statu,index) in status' :key='index'  :label="statu.message" :value='statu.value'></el-option>
+                                <el-option v-for='(statu,index) in status' :key='index' :label="statu.message"
+                                    :value='statu.value'></el-option>
 
                             </el-select>
                         </el-col>
@@ -76,18 +76,20 @@
                         </el-col>
                         <el-col :span='16'>
                             <el-select v-model="typeSelected">
-                                <el-option v-for='(type,index) in types' :key='index'  :label="type.message" :value='type.value'></el-option>
+                                <el-option v-for='(type,index) in types' :key='index' :label="type.message"
+                                    :value='type.value'></el-option>
                             </el-select>
                         </el-col>
                     </div>
 
                 </el-col>
-               
+
                 <el-col :span='10' :offset='2'>
                     <el-button type="danger" round>清空</el-button>
-                    <el-button type="success" round>搜索</el-button>
+                    <el-button type="success" round v-on:click='getList'>搜索</el-button>
                 </el-col>
             </el-row>
+
 
         </div>
         <!-- 表格 -->
@@ -97,6 +99,8 @@
                 <el-button class='add' size='mini' type="success">+新增</el-button>
             </div>
             <div class="body-panel">
+
+
                 <table>
                     <tr>
                         <th>序号</th>
@@ -110,7 +114,7 @@
                     <tr v-for='(list,index) in lists' :key=index>
                         <td>{{index+1}}</td>
                         <td>{{list.title}}</td>
-                        <td>{{list.type}}</td>
+                        <td>{{list.itype}}</td>
                         <td>{{list.status}}</td>
                         <td>{{list.update_by}}</td>
                         <td>{{list.update_at}}</td>
@@ -121,12 +125,40 @@
                         </td>
                     </tr>
                 </table>
+
+<!-- 
+                <el-table :data='lists' style='width:100%' stripe>
+                    <el-table-column type='index' align='center'></el-table-column>
+                    <el-table-column label='标题' prop='title' header-align='center' align='center'></el-table-column>
+                    <el-table-column label='类型' prop='itype' header-align='center' align='center'></el-table-column>
+
+                    <el-table-column label='状态' prop='status' header-align='center' align='center' width='50px'>
+                    </el-table-column>
+
+                    <el-table-column label='编辑者' prop='update_by' header-align='center' align='center'>
+                    </el-table-column>
+
+                    <el-table-column label='编辑时间' prop='update_at' header-align='center' align='center'>
+                    </el-table-column>
+                    <el-table-column label="操作" header-align='center' align='center'>
+
+                        <el-button size="mini">上线</el-button>
+                        <el-button size="mini">编辑</el-button>
+                        <el-button size="mini" type="danger">删除
+                        </el-button>
+
+                    </el-table-column>
+                </el-table> -->
+
             </div>
 
         </div>
     </div>
 </template>
 <script>
+    import {
+        getlist
+    } from '@/api/OperatManage/ContentManage.js'
     export default {
         data: function () {
             return {
@@ -134,7 +166,7 @@
                 author: '',
                 creatAt: '',
                 creatEnd: '',
-                lists: '',
+                lists: [],
                 statuSelected: '',
                 status: [{
                     message: '全部',
@@ -162,6 +194,20 @@
                 }],
 
 
+            }
+        },
+        created() {
+            this.getList()
+
+        },
+        methods: {
+            getList() {
+                getlist()
+                    .then((res) => {
+                        console.log(res.data.data)
+                        this.lists = res.data.data
+                        console.log(this.lists)
+                    })
             }
         }
 
@@ -223,10 +269,8 @@
     .body-panel {
         padding: 5px 15px;
 
-        table {
-            width: 100%;
-            border: 1px solid #eeeeee;
-        }
+
     }
 
+    
 </style>
