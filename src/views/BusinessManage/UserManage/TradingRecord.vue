@@ -2,48 +2,57 @@
     <div class="secondPageContent">
         <form class="listOne">
             <!-- 以下用了饿了么的栅格布局 -->
-            <el-row :gutter="20">
-                <el-col :span="6.5">
-                    <div class="grid-content bg-purple">产品名称<input type="text" name="productName" v-model="productName"
-                            autocomplete="off"></div>
-                </el-col>
-                <el-col :span="6.5">
-                    <div class="grid-content bg-purple">交易类型<select  v-model="type"
-                            style="height: 42px; margin: 10px;">
-                            <option value=''>全部</option>
-                            <option :value="index" v-for="(item,index) in totalType" :key="index">{{item}}</option>
-                        </select></div>
-                </el-col>
-                <el-col :span="11">
-                    <div class="grid-content bg-purple">
-                        <div class="block">
-                            <span class="demonstration">交易时间</span>
-                            <el-date-picker v-model="value1" type="daterange" range-separator="至"
-                                style="  height: 42px; margin: 10px;" start-placeholder="开始日期" end-placeholder="结束日期">
-                            </el-date-picker>
-                        </div>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row :gutter="20">
-                <el-col :span="6.5">
-                    <div class="grid-content bg-purple">交易状态<select v-model="status"
-                            style="height: 42px; margin: 10px;">
-                            <option value=''>全部</option>
-                            <option :value="index" v-for="(item,index) in totalStatus" :key="index">{{item}}</option>
-                        </select></div>
-                </el-col>
-                <el-col :span="17.5">
-                    <div class="grid-content bg-purple">
-                        <div class="block">
-                            <div style="margin:10px 0 10px 285px;">
-                                <button type="button" @click="empty" class="empty">清空</button>
-                                <button @click="seek" type="button" class="seek">搜索</button>
-                            </div>
-                        </div>
-                    </div>
-                </el-col>
-            </el-row>
+            <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                <el-row :gutter="20" style="margin-bottom: 20px;">
+                    <el-col :span="6">
+                        <el-form-item label="产品名称">
+                            <el-input v-model="productName" placeholder=""></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="交易类型">
+                            <el-select v-model="type" placeholder="">
+                                <el-option label="全部" value=""></el-option>
+                                <el-option :value="index" v-for="(item,index) in totalType" :key="index">{{item}}
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+
+                    <el-col :span="12">
+                        <el-form-item label="交易时间">
+                            <el-col :span="11">
+                                <el-date-picker type="date" placeholder="开始日期" v-model="date1" style="width: 100%;">
+                                </el-date-picker>
+                            </el-col>
+                            <el-col class="line" :span="2" style="    text-align: center;">-</el-col>
+                            <el-col :span="11">
+                                <el-date-picker type="date" placeholder="结束日期" v-model="date2" style="width: 100%;">
+                                </el-date-picker>
+                            </el-col>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">
+                        <el-form-item label="交易状态">
+                            <el-select v-model="status" placeholder="">
+                                <el-option label="全部" value=""></el-option>
+                                <el-option :value="index" v-for="(item,index) in totalStatus" :key="index">{{item}}
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+
+
+                    <el-col :span="6" :offset="6">
+                        <el-form-item>
+                            <el-button type="primary" @click="seek">搜索</el-button>
+                            <el-button type="danger" @click="empty">清空</el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
         </form>
         <div class="listHead">
             <span>{{`${names}的交易记录`}}</span>
@@ -76,23 +85,26 @@
 </template>
 
 <script>
+    import '@/assets/scss/commonList.scss'
     export default {
         data() {
             return {
-                productName:'',
+                productName: '',
                 type: '',
-                totalType: ['付款','回款'],
-                value1: '', //时间范围
-                status:'',
-                totalStatus:['成功','失败'],
+                totalType: ['付款', '回款'],
+
+                status: '',
+                totalStatus: ['成功', '失败'],
                 msg: '',
-                names:'',
-                listHead: ['序号', '交易时间', '手机号', '姓名','交易流水', '产品名称', '交易金额(元)', '交易类型', '交易状态', '交易方式'],
-                currentPage:1,
+                names: '',
+                listHead: ['序号', '交易时间', '手机号', '姓名', '交易流水', '产品名称', '交易金额(元)', '交易类型', '交易状态', '交易方式'],
+                currentPage: 1,
+                date1: '',
+                date2: ''
             }
         },
         computed: {
-           
+
         },
         methods: {
             empty() {
@@ -102,7 +114,7 @@
                 console.log('搜索')
             },
 
-            handleSizeChange(val) {// 每页多少
+            handleSizeChange(val) { // 每页多少
                 console.log(`每页 ${val} 条`);
             },
             handleCurrentChange(val) {
@@ -113,104 +125,5 @@
     }
 </script>
 <style lang="scss" scoped>
-    // .secondPageContent {
-    //     float: right;
-    //     @include w-h(80%, calc(100% - 60px));
-    //     background-color: #f5f5f5;
 
-    // }
-
-    // @media (max-width: 940px) {
-    //     .secondPageContent {
-    //         @include w-h(70%, calc(100% - 60px));
-    //     }
-    // }
-
-    select {
-        @include w-h(166px, 34px);
-        border: 1px solid #DCDFE6;
-        border-radius: 8px;
-        outline: none;
-    }
-
-
-
-    .listOne {
-        position: relative;
-        margin: 20px;
-        padding: 20px;
-        border: 1px solid darkgray;
-        border-radius: 10px;
-        background-color: white;
-
-        input {
-            margin: 10px;
-            border: 1px solid #DCDFE6;
-            height: 40px;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        button {
-            border: 0;
-            border-radius: 5px;
-            @include w-h(60px, 40px);
-            margin-right: 20px;
-        }
-    }
-
-    .listHead {
-        @include flex(space-between, center);
-        margin: 20px 20px 0 20px;
-        padding: 10px;
-        border: 1px solid darkgray;
-        border-radius: 10px 10px 0 0;
-    }
-
-    .list {
-        margin: 0 20px 20px 20px;
-        padding: 10px;
-        border: 1px solid darkgray;
-        border-radius: 0 0 10px 10px;
-        border-top: 0;
-    }
-
-    .listTwo {
-        border: 1px solid darkgray;
-        @include w-h(100%, 100%);
-        background-color: white;
-        text-align: center;
-
-        tr {
-            border-bottom: 1px solid darkgray;
-        }
-
-        img {
-            @include w-h(50px, 50px);
-        }
-    }
-
-    a {
-        padding-left: 5px;
-        color: darkblue;
-        text-decoration: none;
-    }
-
-    .cs {
-        background-color: #f5f5f5;
-    }
-
-    .sc {
-        background-color: white;
-    }
-
-    .empty {
-        color: white;
-        background-color: brown;
-    }
-
-    .seek {
-        color: white;
-        background-color: darkcyan;
-    }
 </style>

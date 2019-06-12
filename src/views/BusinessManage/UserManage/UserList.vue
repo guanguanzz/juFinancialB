@@ -1,48 +1,55 @@
 <template>
     <div class="secondPageContent">
         <form class="listOne">
-            <!-- 以下用了饿了么的栅格布局 -->
-            <el-row :gutter="20">
-                <el-col :span="6.5">
-                    <div class="grid-content bg-purple"> 手机号码<input type="text" name="phoneNumber" v-model="phoneNumber"
-                            autocomplete="off"></div>
-                </el-col>
-                <el-col :span="6.5">
-                    <div class="grid-content bg-purple">真实姓名<input type="text" name="name" v-model="name"></div>
-                </el-col>
-                <el-col :span="11">
-                    <div class="grid-content bg-purple">
-                        <div class="block">
-                            <span class="demonstration">注册日期</span>
-                            <el-date-picker v-model="value1" type="daterange" range-separator="至"
-                                style="  height: 42px; margin: 10px;" start-placeholder="开始日期" end-placeholder="结束日期">
-                            </el-date-picker>
-                        </div>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row :gutter="20">
-                <el-col :span="6.5">
-                    <div class="grid-content bg-purple"> 理财经理<input type="text" name="manager" v-model="manager"></div>
-                </el-col>
-                <el-col :span="6.5">
-                    <div class="grid-content bg-purple"> 账户状态<select ref="status" v-model="status"
-                            style="height: 42px; margin: 10px;">
-                            <option value=''>全部</option>
-                            <option :value="index" v-for="(item,index) in totalStatus" :key="index">{{item}}</option>
-                        </select></div>
-                </el-col>
-                <el-col :span="11">
-                    <div class="grid-content bg-purple">
-                        <div class="block">
-                            <div style="margin:10px 0 10px 285px;">
-                                <button type="button" @click="empty" class="empty">清空</button>
-                                <button @click="seek" type="button" class="seek">搜索</button>
-                            </div>
-                        </div>
-                    </div>
-                </el-col>
-            </el-row>
+            <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                <el-row :gutter="20">
+                    <el-col :span="6">
+                        <el-form-item label="手机号码">
+                            <el-input v-model="phoneNumber" placeholder=""></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="真实姓名">
+                            <el-input v-model="name" placeholder=""></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="注册日期">
+                            <el-col :span="11">
+                                <el-date-picker type="date" placeholder="开始日期" v-model="date1" style="width: 100%;">
+                                </el-date-picker>
+                            </el-col>
+                            <el-col class="line" :span="2" style="    text-align: center;">-</el-col>
+                            <el-col :span="11">
+                                <el-date-picker type="date" placeholder="结束日期" v-model="date2" style="width: 100%;">
+                                </el-date-picker>
+                            </el-col>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">
+                        <el-form-item label="理财经理">
+                            <el-input v-model="manager" placeholder=""></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="账户状态">
+                            <el-select v-model="status" placeholder="">
+                                <el-option label="全部" value=""></el-option>
+                                <el-option :value="index" v-for="(item,index) in totalStatus" :key="index">{{item}}
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6" :offset="6">
+                        <el-form-item>
+                            <el-button type="primary" @click="seek">搜索</el-button>
+                            <el-button type="danger" @click="empty">清空</el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
         </form>
         <div class="listHead">
             <span>用户列表</span>
@@ -67,16 +74,26 @@
                     </td>
                 </tr>
             </table>
-            <div class="block" style="margin-left: 50%;padding: 10px;">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                    :current-page.sync="currentPage" :page-size="100" layout="prev, pager, next, jumper" :total="1000">
-                </el-pagination>
-            </div>
+            <el-row :gutter="20">
+                <el-col :span="14" :offset="10">
+                    <div class="grid-content bg-purple">
+                        <div class="block" style="padding: 20px 0;">
+                            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                                :current-page.sync="currentPage" :page-size="100" layout="prev, pager, next, jumper"
+                                :total="1000">
+                            </el-pagination>
+                        </div>
+                    </div>
+                </el-col>
+            </el-row>
+
         </div>
     </div>
 </template>
 
 <script>
+    import '@/assets/scss/commonList.scss'
+    import {getList} from '@/api/BusinessManage/UserManage/UserList.js'
     export default {
         data() {
             return {
@@ -88,8 +105,15 @@
                 value1: '', //时间范围
                 listHead: ['用户编号', '注册日期', '手机号', '理财经理', '真实姓名', '总资产(元)', '累计收益(元)', '账户状态', '操作'],
                 msg: '',
-                currentPage:1,
+                currentPage: 1,
+                formInline: {},
+                // form:[date1,date2],
+                date1: '',
+                date2: '',
             }
+        },
+        created(){
+               getList(); 
         },
         computed: {
             makeStatus: function () {
@@ -110,7 +134,7 @@
             Look() {
                 console.log('查看')
             },
-            handleSizeChange(val) {// 每页多少
+            handleSizeChange(val) { // 每页多少
                 console.log(`每页 ${val} 条`);
             },
             handleCurrentChange(val) {
@@ -121,104 +145,5 @@
     }
 </script>
 <style lang="scss" scoped>
-    // .secondPageContent {
-    //     float: right;
-    //     @include w-h(80%, calc(100% - 60px));
-    //     background-color: #f5f5f5;
 
-    // }
-
-    // @media (max-width: 940px) {
-    //     .secondPageContent {
-    //         @include w-h(70%, calc(100% - 60px));
-    //     }
-    // }
-
-    select {
-        @include w-h(166px, 34px);
-        border: 1px solid #DCDFE6;
-        border-radius: 8px;
-        outline: none;
-    }
-
-
-
-    .listOne {
-        position: relative;
-        margin: 20px;
-        padding: 20px;
-        border: 1px solid darkgray;
-        border-radius: 10px;
-        background-color: white;
-
-        input {
-            margin: 10px;
-            border: 1px solid #DCDFE6;
-            height: 40px;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        button {
-            border: 0;
-            border-radius: 5px;
-            @include w-h(60px, 40px);
-            margin-right: 20px;
-        }
-    }
-
-    .listHead {
-        @include flex(space-between, center);
-        margin: 20px 20px 0 20px;
-        padding: 10px;
-        border: 1px solid darkgray;
-        border-radius: 10px 10px 0 0;
-    }
-
-    .list {
-        margin: 0 20px 20px 20px;
-        padding: 10px;
-        border: 1px solid darkgray;
-        border-radius: 0 0 10px 10px;
-        border-top: 0;
-    }
-
-    .listTwo {
-        border: 1px solid darkgray;
-        @include w-h(100%, 100%);
-        background-color: white;
-        text-align: center;
-
-        tr {
-            border-bottom: 1px solid darkgray;
-        }
-
-        img {
-            @include w-h(50px, 50px);
-        }
-    }
-
-    a {
-        padding-left: 5px;
-        color: darkblue;
-        text-decoration: none;
-    }
-
-    .cs {
-        background-color: #f5f5f5;
-    }
-
-    .sc {
-        background-color: white;
-    }
-
-    .empty {
-        color: white;
-        background-color: brown;
-    }
-
-    .seek {
-        color: white;
-        background-color: darkcyan;
-    }
 </style>

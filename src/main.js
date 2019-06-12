@@ -12,6 +12,12 @@ import filter from "@/filter/index.js"
 //全局导入过滤器
 Object.keys(filter).forEach(key => Vue.filter(key, filter[key]))
 
+import * as filters from '@/filters/Operat.js'
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
+
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);
