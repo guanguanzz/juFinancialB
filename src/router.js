@@ -17,11 +17,11 @@ export default new Router({
     //   name: 'home',
     //   component: Home
     // },
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
+    // {
+    //   path: '/',
+    //   name: 'home',
+    //   component: Home
+    // },
     // {
     //   path: '/about',
     //   name: 'about',
@@ -32,8 +32,8 @@ export default new Router({
     // },
     {
 
-      // path: '/',
-      path: '/nav',
+      path: '/',
+      // path: '/nav',
       name: 'nav',
       component: () => import ('@/views/Nav.vue'),
       children:[

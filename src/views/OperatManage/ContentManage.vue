@@ -1,4 +1,3 @@
-
 <template>
     <div>
         <div class='form-horizontal'>
@@ -6,10 +5,10 @@
                 <el-col :span='6'>
 
                     <div class='form-group'>
-                        <el-col :span='8' type="flex" justify="end">
+                        <el-col :span='7' type="flex" justify="end">
                             <label class="form-lable">标题</label>
                         </el-col>
-                        <el-col :span='16'>
+                        <el-col :span='17'>
                             <el-input v-model="title"></el-input>
                         </el-col>
                     </div>
@@ -18,10 +17,10 @@
                 <el-col :span='6'>
                     <div class='form-group'>
 
-                        <el-col :span='8' type="flex" justify="end">
+                        <el-col :span='7' type="flex" justify="end">
                             <label class="form-lable">编辑者</label>
                         </el-col>
-                        <el-col :span='16'>
+                        <el-col :span='17'>
                             <el-input v-model="author"></el-input>
                         </el-col>
 
@@ -33,7 +32,7 @@
                             <label class="form-lable">编辑时间</label>
                         </el-col>
                         <el-col :span='8'>
-                            <el-date-picker type="date" placeholder="选择日期">
+                            <el-date-picker type="date" v-model="update_begin" placeholder="选择日期">
                             </el-date-picker>
                         </el-col>
                     </div>
@@ -42,7 +41,7 @@
                             <label class="form-lable2">~</label>
                         </el-col>
                         <el-col :span='8'>
-                            <el-date-picker type="date" placeholder="选择日期">
+                            <el-date-picker type="date" v-model="update_end" placeholder="选择日期">
                             </el-date-picker>
                         </el-col>
                     </div>
@@ -51,17 +50,17 @@
 
             </el-row>
 
-
             <el-row :gutter='20'>
-                 <el-col :span='6'>
+                <el-col :span='6'>
                     <div class='form-group'>
 
-                        <el-col :span='8' type="flex" justify="end">
+                        <el-col :span='7' type="flex" justify="end">
                             <label class="form-lable">状态</label>
                         </el-col>
-                        <el-col :span='16'>
+                        <el-col :span='17'>
                             <el-select v-model="statuSelected">
-                              <el-option v-for='(statu,index) in status' :key='index'  :label="statu.message" :value='statu.value'></el-option>
+                                <el-option v-for='(statu,index) in status' :key='index' :label="statu.message"
+                                    :value='statu.value'></el-option>
 
                             </el-select>
                         </el-col>
@@ -71,23 +70,31 @@
                 <el-col :span='6'>
 
                     <div class='form-group'>
-                        <el-col :span='8' type="flex" justify="end">
+                        <el-col :span='7' type="flex" justify="end">
                             <label class="form-lable">类&emsp;型</label>
                         </el-col>
-                        <el-col :span='16'>
+                        <el-col :span='17'>
                             <el-select v-model="typeSelected">
-                                <el-option v-for='(type,index) in types' :key='index'  :label="type.message" :value='type.value'></el-option>
+                                <el-option v-for='(type,index) in types' :key='index' :label="type.message"
+                                    :value='type.value'></el-option>
                             </el-select>
                         </el-col>
                     </div>
 
                 </el-col>
-               
-                <el-col :span='10' :offset='2'>
+
+
+            </el-row>
+
+            <el-row>
+                <el-col :span='24' class='button-group'>
                     <el-button type="danger" round>清空</el-button>
-                    <el-button type="success" round>搜索</el-button>
+                    <el-button type="success" round
+                        v-on:click='getList(1,title,typeSelected,statuSelected,author,update_begin,update_end)'>搜索
+                    </el-button>
                 </el-col>
             </el-row>
+
 
         </div>
         <!-- 表格 -->
@@ -97,6 +104,8 @@
                 <el-button class='add' size='mini' type="success">+新增</el-button>
             </div>
             <div class="body-panel">
+
+
                 <table>
                     <tr>
                         <th>序号</th>
@@ -110,35 +119,82 @@
                     <tr v-for='(list,index) in lists' :key=index>
                         <td>{{index+1}}</td>
                         <td>{{list.title}}</td>
-                        <td>{{list.type}}</td>
-                        <td>{{list.status}}</td>
+                        <td>{{list.itype}}</td>
+                        <td>{{list.status|statusFilters}}</td>
                         <td>{{list.update_by}}</td>
-                        <td>{{list.update_at}}</td>
+                        <td>{{list.update_at*1000|timeFilters}}</td>
                         <td>
-                            <el-button size='mini'>下线</el-button>
+                            <el-button size='mini' @click='changeStatus(list.id,list.status)'>
+                                {{list.status|upDownFilters}}</el-button>
                             <el-button size='mini'>编辑</el-button>
-                            <el-button size='mini'>删除</el-button>
+                            <el-button size='mini' @click='cutOut(list.id)'>删除</el-button>
                         </td>
                     </tr>
                 </table>
+
+                <!-- 
+                <el-table :data='lists' style='width:100%' stripe>
+                    <el-table-column type='index' align='center'></el-table-column>
+                    <el-table-column label='标题' prop='title' header-align='center' align='center'></el-table-column>
+                    <el-table-column label='类型' prop='itype' header-align='center' align='center'></el-table-column>
+
+                    <el-table-column label='状态' prop='status' header-align='center' align='center' width='50px'>
+                    </el-table-column>
+
+                    <el-table-column label='编辑者' prop='update_by' header-align='center' align='center'>
+                    </el-table-column>
+
+                    <el-table-column label='编辑时间' prop='update_at' header-align='center' align='center'>
+                    </el-table-column>
+                    <el-table-column label="操作" header-align='center' align='center'>
+
+                        <el-button size="mini">上线</el-button>
+                        <el-button size="mini">编辑</el-button>
+                        <el-button size="mini" type="danger">删除
+                        </el-button>
+
+                    </el-table-column>
+                </el-table> -->
+                <el-row>
+                    <el-col :span='24' class="pagination">
+                        <el-pagination @current-change="handleCurrentChange" :current-page.sync="pages.onPage"
+                            :page-size="10" layout="prev, pager, next, jumper" :total="pages.total">
+                        </el-pagination>
+                    </el-col>
+                </el-row>
             </div>
 
         </div>
+        <el-dialog width='30%' title='操作提示' :visible='outerVisible'>
+
+
+        </el-dialog>
     </div>
 </template>
 <script>
+    import {
+        getlist,
+        changestatus,
+        cut
+    } from '@/api/OperatManage/ContentManage.js'
+
     export default {
         data: function () {
             return {
-                title: "",
-                author: '',
-                creatAt: '',
-                creatEnd: '',
-                lists: '',
-                statuSelected: '',
+                outerVisible: false,
+                pages: {
+                    onPage: 1,
+                    total: 100,
+                },
+                title: null,
+                author: null,
+                update_begin: null,
+                update_end: null,
+                lists: [],
+                statuSelected: null,
                 status: [{
                     message: '全部',
-                    value: ''
+                    value: null
                 }, {
                     message: '草稿',
                     value: '0'
@@ -146,10 +202,10 @@
                     message: '上线',
                     value: '1'
                 }],
-                typeSelected: '',
+                typeSelected: null,
                 types: [{
                     message: '全部',
-                    value: ''
+                    value: null
                 }, {
                     message: 'banner推荐',
                     value: 'banner推荐'
@@ -160,8 +216,96 @@
                     message: '关于我们',
                     value: '关于我们'
                 }],
+            }
+        },
+        created() {
+            this.getList(this.pages.onPage)
+        },
+        methods: {
 
+            handleCurrentChange() {
+                console.log(this.pages.onPage)
+                this.getList(this.pages.onPage, this.title, this.typeSelected, this.statuSelected, this.author, this
+                    .update_begin, this.update_end)
+            },
 
+            getList(onPage, title, type, status, creatBy, creatAt, update_end) {
+                getlist(onPage, title, type, status, creatBy, creatAt, update_end)
+                    .then((res) => {
+                        console.log(res.data.data)
+                        this.lists = res.data.data
+                    })
+                    .catch((res) => {
+                        console.log(res)
+                    })
+            },
+
+            changeStatus(id, status) {
+                let msg = ''
+                //变为目的状态
+                switch (status) {
+                    case 1:
+                        msg = '确认上线？';
+                        status = 2;
+                        break;
+                    case 2:
+                        msg = '确认下线？';
+                        status = 1;
+                        break;
+                }
+                this.$confirm(msg)
+                    .then(() => {
+                        //确认则发起改变状态请求        
+                        changestatus(id, status)
+                            //成功则弹出成功信息
+                            .then((res) => {
+                                switch (status) {
+                                    case 1:
+                                        msg = '下线成功';
+                                        break;
+                                    case 2:
+                                        msg = '上线成功';
+                                        break;
+                                }
+                                this.$alert(msg)
+                            })
+                            //重新请求当前数据
+                            .then(() => {
+                                this.getList(this.pages.onPage, this.title, this.typeSelected, this
+                                    .statuSelected, this.author, this
+                                    .update_begin, this.update_end)
+                            })
+                            .catch((res) => {
+                                console.log(res)
+                            })
+                    })
+                    .catch((res) => {
+                        console.log(res)
+                    })
+            },
+
+            cutOut(id) {
+                this.$confirm('确认删除吗？')
+                    //确认则发起删除请求
+                    .then(() => {
+                        cut(id)
+                            .then(() => {
+                                this.$alert("删除成功")
+                            })
+                            .catch((res) => {
+                                console.log(res)
+                            })
+                    })
+                    //删除成功后重新请求界面
+                    .then(() => {
+                        this.getList(this.pages.onPage, this.title, this.typeSelected, this
+                            .statuSelected, this.author, this
+                            .update_begin, this.update_end)
+                    })
+                    //任何错误都会打断此过程
+                    .catch((res) => {
+                        console.log(res)
+                    })
             }
         }
 
@@ -171,6 +315,7 @@
     .form-horizontal {
         margin-bottom: 30px;
         padding: 20px;
+        padding-bottom: 0;
         background-color: #fff;
         border-radius: 5px;
         border: 1px solid #F2F2F2;
@@ -190,6 +335,16 @@
             @extend .form-lable;
             text-align: center;
         }
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .pagination {
+        @extend .button-group;
+        margin-top: 20px;
     }
 
     .el-date-editor {
@@ -223,10 +378,6 @@
     .body-panel {
         padding: 5px 15px;
 
-        table {
-            width: 100%;
-            border: 1px solid #eeeeee;
-        }
-    }
 
+    }
 </style>
