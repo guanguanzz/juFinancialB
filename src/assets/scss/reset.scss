@@ -7,3 +7,33 @@ ul{
     list-style:none; 
 }
 
+table {
+    width: 100%;
+    font-size: 14px;
+    color:#606266;
+    // border: 1px solid #eeeeee;
+    border-collapse: collapse;
+    tr{
+        border-bottom:1px solid #EBEEF5;
+        &:nth-child(odd) {
+            background-color: #fff;
+        }
+
+        &:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        &:hover td{
+            background-color: #F5F7FA;
+        }
+
+        transition: background-color .25s ease; 
+
+    }
+
+
+    td,th{
+        padding: 12px 0;
+        text-align: center;
+    }
+}

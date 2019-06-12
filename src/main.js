@@ -7,6 +7,11 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/scss/reset.scss' //reset 样式
 import '@/assets/scss/iconFont/iconfont.css'
+import * as filters from '@/filters/Operat.js'
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);
