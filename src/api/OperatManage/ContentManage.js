@@ -22,4 +22,8 @@ var changestatus = function(id,status){
     return Axios.put('/api/a/u/content/up',data)
 }
 
-export {getlist,changestatus} 
+var cut = function(id){
+    return Axios.delete(`/api/a/u/content/del/${id}`,)
+}
+
+export {getlist,changestatus,cut} 

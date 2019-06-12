@@ -124,9 +124,10 @@
                         <td>{{list.update_by}}</td>
                         <td>{{list.update_at*1000|timeFilters}}</td>
                         <td>
-                            <el-button size='mini'>{{list.status|upDownFilters}}</el-button>
+                            <el-button size='mini' @click='changeStatus(list.id,list.status)'>
+                                {{list.status|upDownFilters}}</el-button>
                             <el-button size='mini'>编辑</el-button>
-                            <el-button size='mini'>删除</el-button>
+                            <el-button size='mini' @click='cutOut(list.id)'>删除</el-button>
                         </td>
                     </tr>
                 </table>
@@ -164,16 +165,23 @@
             </div>
 
         </div>
+        <el-dialog width='30%' title='操作提示' :visible='outerVisible'>
+
+
+        </el-dialog>
     </div>
 </template>
 <script>
     import {
-        getlist
+        getlist,
+        changestatus,
+        cut
     } from '@/api/OperatManage/ContentManage.js'
 
     export default {
         data: function () {
             return {
+                outerVisible: false,
                 pages: {
                     onPage: 1,
                     total: 100,
@@ -214,22 +222,94 @@
             this.getList(this.pages.onPage)
         },
         methods: {
+
             handleCurrentChange() {
                 console.log(this.pages.onPage)
                 this.getList(this.pages.onPage, this.title, this.typeSelected, this.statuSelected, this.author, this
                     .update_begin, this.update_end)
             },
+
             getList(onPage, title, type, status, creatBy, creatAt, update_end) {
                 getlist(onPage, title, type, status, creatBy, creatAt, update_end)
                     .then((res) => {
                         console.log(res.data.data)
                         this.lists = res.data.data
                     })
+                    .catch((res) => {
+                        console.log(res)
+                    })
+            },
+
+            changeStatus(id, status) {
+                let msg = ''
+                //变为目的状态
+                switch (status) {
+                    case 1:
+                        msg = '确认上线？';
+                        status = 2;
+                        break;
+                    case 2:
+                        msg = '确认下线？';
+                        status = 1;
+                        break;
+                }
+                this.$confirm(msg)
+                    .then(() => {
+                        //确认则发起改变状态请求        
+                        changestatus(id, status)
+                            //成功则弹出成功信息
+                            .then((res) => {
+                                switch (status) {
+                                    case 1:
+                                        msg = '下线成功';
+                                        break;
+                                    case 2:
+                                        msg = '上线成功';
+                                        break;
+                                }
+                                this.$alert(msg)
+                            })
+                            //重新请求当前数据
+                            .then(() => {
+                                this.getList(this.pages.onPage, this.title, this.typeSelected, this
+                                    .statuSelected, this.author, this
+                                    .update_begin, this.update_end)
+                            })
+                            .catch((res) => {
+                                console.log(res)
+                            })
+                    })
+                    .catch((res) => {
+                        console.log(res)
+                    })
+            },
+
+            cutOut(id) {
+                this.$confirm('确认删除吗？')
+                    //确认则发起删除请求
+                    .then(() => {
+                        cut(id)
+                            .then(() => {
+                                this.$alert("删除成功")
+                            })
+                            .catch((res) => {
+                                console.log(res)
+                            })
+                    })
+                    //删除成功后重新请求界面
+                    .then(() => {
+                        this.getList(this.pages.onPage, this.title, this.typeSelected, this
+                            .statuSelected, this.author, this
+                            .update_begin, this.update_end)
+                    })
+                    //任何错误都会打断此过程
+                    .catch((res) => {
+                        console.log(res)
+                    })
             }
         }
 
     }
-    
 </script>
 <style lang="scss" scoped>
     .form-horizontal {
