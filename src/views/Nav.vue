@@ -3,7 +3,7 @@
         <div class='content'>
             <sideNav></sideNav>
             <div class="right">
-                <topBar></topBar>
+                <TopBar></TopBar>
                 <div class="main-content">
 
                 <router-view :key='key'></router-view>
@@ -13,11 +13,11 @@
     </div>
 </template>
 <script>
-    import topBar from '@/components/TopBar.vue'
+    import TopBar from '@/components/TopBar.vue'
     import sideNav from '@/components/SideNav.vue'
     export default {
         components: {
-            topBar,
+            TopBar,
             sideNav,
         },
        data: function () {
