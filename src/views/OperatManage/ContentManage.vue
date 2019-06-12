@@ -5,10 +5,10 @@
                 <el-col :span='6'>
 
                     <div class='form-group'>
-                        <el-col :span='8' type="flex" justify="end">
+                        <el-col :span='7' type="flex" justify="end">
                             <label class="form-lable">标题</label>
                         </el-col>
-                        <el-col :span='16'>
+                        <el-col :span='17'>
                             <el-input v-model="title"></el-input>
                         </el-col>
                     </div>
@@ -17,10 +17,10 @@
                 <el-col :span='6'>
                     <div class='form-group'>
 
-                        <el-col :span='8' type="flex" justify="end">
+                        <el-col :span='7' type="flex" justify="end">
                             <label class="form-lable">编辑者</label>
                         </el-col>
-                        <el-col :span='16'>
+                        <el-col :span='17'>
                             <el-input v-model="author"></el-input>
                         </el-col>
 
@@ -32,7 +32,7 @@
                             <label class="form-lable">编辑时间</label>
                         </el-col>
                         <el-col :span='8'>
-                            <el-date-picker type="date" placeholder="选择日期">
+                            <el-date-picker type="date" v-model="update_begin" placeholder="选择日期">
                             </el-date-picker>
                         </el-col>
                     </div>
@@ -41,7 +41,7 @@
                             <label class="form-lable2">~</label>
                         </el-col>
                         <el-col :span='8'>
-                            <el-date-picker type="date" placeholder="选择日期">
+                            <el-date-picker type="date" v-model="update_end" placeholder="选择日期">
                             </el-date-picker>
                         </el-col>
                     </div>
@@ -50,15 +50,14 @@
 
             </el-row>
 
-
             <el-row :gutter='20'>
                 <el-col :span='6'>
                     <div class='form-group'>
 
-                        <el-col :span='8' type="flex" justify="end">
+                        <el-col :span='7' type="flex" justify="end">
                             <label class="form-lable">状态</label>
                         </el-col>
-                        <el-col :span='16'>
+                        <el-col :span='17'>
                             <el-select v-model="statuSelected">
                                 <el-option v-for='(statu,index) in status' :key='index' :label="statu.message"
                                     :value='statu.value'></el-option>
@@ -71,10 +70,10 @@
                 <el-col :span='6'>
 
                     <div class='form-group'>
-                        <el-col :span='8' type="flex" justify="end">
+                        <el-col :span='7' type="flex" justify="end">
                             <label class="form-lable">类&emsp;型</label>
                         </el-col>
-                        <el-col :span='16'>
+                        <el-col :span='17'>
                             <el-select v-model="typeSelected">
                                 <el-option v-for='(type,index) in types' :key='index' :label="type.message"
                                     :value='type.value'></el-option>
@@ -84,9 +83,15 @@
 
                 </el-col>
 
-                <el-col :span='10' :offset='2'>
+
+            </el-row>
+
+            <el-row>
+                <el-col :span='24' class='button-group'>
                     <el-button type="danger" round>清空</el-button>
-                    <el-button type="success" round v-on:click='getList'>搜索</el-button>
+                    <el-button type="success" round
+                        v-on:click='getList(1,title,typeSelected,statuSelected,author,update_begin,update_end)'>搜索
+                    </el-button>
                 </el-col>
             </el-row>
 
@@ -115,18 +120,18 @@
                         <td>{{index+1}}</td>
                         <td>{{list.title}}</td>
                         <td>{{list.itype}}</td>
-                        <td>{{list.status}}</td>
+                        <td>{{list.status|statusFilters}}</td>
                         <td>{{list.update_by}}</td>
-                        <td>{{list.update_at}}</td>
+                        <td>{{list.update_at*1000|timeFilters}}</td>
                         <td>
-                            <el-button size='mini'>下线</el-button>
+                            <el-button size='mini'>{{list.status|upDownFilters}}</el-button>
                             <el-button size='mini'>编辑</el-button>
                             <el-button size='mini'>删除</el-button>
                         </td>
                     </tr>
                 </table>
 
-<!-- 
+                <!-- 
                 <el-table :data='lists' style='width:100%' stripe>
                     <el-table-column type='index' align='center'></el-table-column>
                     <el-table-column label='标题' prop='title' header-align='center' align='center'></el-table-column>
@@ -149,7 +154,13 @@
 
                     </el-table-column>
                 </el-table> -->
-
+                <el-row>
+                    <el-col :span='24' class="pagination">
+                        <el-pagination @current-change="handleCurrentChange" :current-page.sync="pages.onPage"
+                            :page-size="10" layout="prev, pager, next, jumper" :total="pages.total">
+                        </el-pagination>
+                    </el-col>
+                </el-row>
             </div>
 
         </div>
@@ -159,18 +170,23 @@
     import {
         getlist
     } from '@/api/OperatManage/ContentManage.js'
+
     export default {
         data: function () {
             return {
-                title: "",
-                author: '',
-                creatAt: '',
-                creatEnd: '',
+                pages: {
+                    onPage: 1,
+                    total: 100,
+                },
+                title: null,
+                author: null,
+                update_begin: null,
+                update_end: null,
                 lists: [],
-                statuSelected: '',
+                statuSelected: null,
                 status: [{
                     message: '全部',
-                    value: ''
+                    value: null
                 }, {
                     message: '草稿',
                     value: '0'
@@ -178,10 +194,10 @@
                     message: '上线',
                     value: '1'
                 }],
-                typeSelected: '',
+                typeSelected: null,
                 types: [{
                     message: '全部',
-                    value: ''
+                    value: null
                 }, {
                     message: 'banner推荐',
                     value: 'banner推荐'
@@ -192,31 +208,34 @@
                     message: '关于我们',
                     value: '关于我们'
                 }],
-
-
             }
         },
         created() {
-            this.getList()
-
+            this.getList(this.pages.onPage)
         },
         methods: {
-            getList() {
-                getlist()
+            handleCurrentChange() {
+                console.log(this.pages.onPage)
+                this.getList(this.pages.onPage, this.title, this.typeSelected, this.statuSelected, this.author, this
+                    .update_begin, this.update_end)
+            },
+            getList(onPage, title, type, status, creatBy, creatAt, update_end) {
+                getlist(onPage, title, type, status, creatBy, creatAt, update_end)
                     .then((res) => {
                         console.log(res.data.data)
                         this.lists = res.data.data
-                        console.log(this.lists)
                     })
             }
         }
 
     }
+    
 </script>
 <style lang="scss" scoped>
     .form-horizontal {
         margin-bottom: 30px;
         padding: 20px;
+        padding-bottom: 0;
         background-color: #fff;
         border-radius: 5px;
         border: 1px solid #F2F2F2;
@@ -236,6 +255,16 @@
             @extend .form-lable;
             text-align: center;
         }
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .pagination {
+        @extend .button-group;
+        margin-top: 20px;
     }
 
     .el-date-editor {
@@ -271,6 +300,4 @@
 
 
     }
-
-    
 </style>
