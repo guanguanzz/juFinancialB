@@ -63,9 +63,9 @@ export default new Router({
           component:()=>import("@/views/BusinessManage/ProductManage.vue")
          },
          {
-          path:'/contentManage',
-          name:'contentManage',
-           component:()=>import("@/views/OperatManage/ContentManage.vue")
+          path:'/contentLists',
+          name:'contentLists',
+           component:()=>import("@/views/OperatManage/ContentManage/ContentLists.vue")
          },
          {
           path:'/messageList',
