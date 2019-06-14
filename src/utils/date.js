@@ -15,9 +15,6 @@ export function timeChange(time) { //将时间戳转为日期格式
 // }
 
 
-
-
-
 export function time(t) { //将日期格式转为时间戳
     const date = new Date(t);
     const time1 = date.getTime();
