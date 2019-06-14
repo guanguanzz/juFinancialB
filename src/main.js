@@ -8,8 +8,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/scss/reset.scss' //reset 样式
 import '@/assets/scss/iconFont/iconfont.css'
 
-import filter from "@/filter/index.js"
 //全局导入过滤器
+import filter from "@/filters/index.js"
 Object.keys(filter).forEach(key => Vue.filter(key, filter[key]))
 
 import * as filters from '@/filters/Operat.js'

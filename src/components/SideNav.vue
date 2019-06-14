@@ -99,11 +99,11 @@
           index: '4',
           icon: 'icon-huaban',
           items: [{
-            name: '账户密码',
-            path: 'idPwd'
+            name: '账户管理',
+            path: 'AccountList'
           }, {
             name: '修改密码',
-            path: 'revisePwd'
+            path: 'ChangePwd'
           }, {
             name: '角色管理',
             path: 'roleManage'
