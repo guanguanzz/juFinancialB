@@ -69,7 +69,7 @@
           icon: 'icon-yunyingguanli',
           items: [{
             name: '内容管理',
-            path: 'contentManage'
+            path: 'contentLists'
           }, {
             name: '消息列表',
             path: 'messageList'
