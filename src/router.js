@@ -60,7 +60,7 @@ export default new Router({
          {
           path:'/productManage',
           name:'productManage',
-          component:()=>import("@/views/BusinessManage/DebtManage.vue")
+          component:()=>import("@/views/BusinessManage/ProductManage.vue")
          },
          {
           path:'/contentManage',
