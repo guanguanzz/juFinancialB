@@ -6,7 +6,7 @@
       <el-radio-button :label="true">收起</el-radio-button>
     </el-radio-group> -->
 
-    <el-menu default-active="welcome" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+    <el-menu  class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
       :collapse="$store.state.isCollapse" :router='true'>
 
 
@@ -45,6 +45,7 @@
   export default {
     data() {
       return {
+        activeIndex:"",
         isCollapse: this.$store.state.isCollapse,
         menus: [{
           title: '业务管理',
@@ -119,6 +120,9 @@
         console.log(key, keyPath);
       },
       handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleSelect(key, keyPath) {
         console.log(key, keyPath);
       }
     }

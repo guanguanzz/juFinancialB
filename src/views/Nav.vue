@@ -5,8 +5,7 @@
             <div class="right">
                 <topBar></topBar>
                 <div class="main-content">
-
-                <router-view :key='key'></router-view>
+                    <router-view :key='key'></router-view>
                 </div>
             </div>
         </div>
@@ -20,16 +19,13 @@
             topBar,
             sideNav,
         },
-       data: function () {
-
+        data: function () {
             return {
                 activeDate: 1
             }
-
         },
         computed: {
             key() {
-                
                 return new Date().getTime()
             }
         }
@@ -44,12 +40,12 @@
             flex-grow: 1;
         }
     }
-.main-content{
-    box-sizing: border-box;
-    padding:30px;
-    background-color: #F0F2F5;
-    min-height:calc(100vh - 50px);
-   
-}
-    
+
+    .main-content {
+        box-sizing: border-box;
+        padding: 30px;
+        background-color: #F0F2F5;
+        min-height: calc(100vh - 50px);
+
+    }
 </style>
