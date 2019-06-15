@@ -42,3 +42,14 @@ table {
 .lookuser .el-form-item__content {
         width: 65%;
 }
+//必选项  class直接加must
+.must{
+    position: relative;
+}
+
+.must::before{
+    content:'*';
+    position:absolute;
+    left:-10px;
+    color:red;
+}

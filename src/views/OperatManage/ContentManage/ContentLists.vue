@@ -5,47 +5,57 @@
                 <el-col :span='6'>
 
                     <div class='form-group'>
-                        <el-col :span='7' type="flex" justify="end">
-                            <label class="form-lable">标题</label>
-                        </el-col>
-                        <el-col :span='17'>
-                            <el-input v-model="title"></el-input>
-                        </el-col>
+                        <el-row :gutter='20'>
+                            <el-col :span='7' type="flex" justify="end">
+                                <label class="form-lable">标题</label>
+                            </el-col>
+                            <el-col :span='17'>
+                                <el-input v-model="title"></el-input>
+                            </el-col>
+                        </el-row>
                     </div>
 
                 </el-col>
                 <el-col :span='6'>
                     <div class='form-group'>
-
-                        <el-col :span='7' type="flex" justify="end">
-                            <label class="form-lable">编辑者</label>
-                        </el-col>
-                        <el-col :span='17'>
-                            <el-input v-model="author"></el-input>
-                        </el-col>
-
+                        <el-row :gutter='20'>
+                            <el-col :span='7' type="flex" justify="end">
+                                <label class="form-lable">编辑者</label>
+                            </el-col>
+                            <el-col :span='17'>
+                                <el-input v-model="author"></el-input>
+                            </el-col>
+                        </el-row>
                     </div>
                 </el-col>
-                <el-col :span='12'>
+                <el-col :span='6'>
                     <div class='form-group'>
-                        <el-col :span='4' type="flex" justify="end">
-                            <label class="form-lable">编辑时间</label>
-                        </el-col>
-                        <el-col :span='8'>
-                            <el-date-picker type="date" v-model="update_begin" placeholder="选择日期">
-                            </el-date-picker>
-                        </el-col>
-                    </div>
-                    <div class='form-group'>
-                        <el-col :span='4' type="flex" justify="end">
-                            <label class="form-lable2">~</label>
-                        </el-col>
-                        <el-col :span='8'>
-                            <el-date-picker type="date" v-model="update_end" placeholder="选择日期">
-                            </el-date-picker>
-                        </el-col>
+                        <el-row :gutter='20'>
+                            <el-col :span='8' type="flex" justify="end">
+                                <label class="form-lable">编辑时间</label>
+                            </el-col>
+                            <el-col :span='16'>
+                                <el-date-picker type="date" v-model="update_begin" placeholder="选择日期"
+                                    :picker-options='beginOptions'>
+                                </el-date-picker>
+                            </el-col>
+                        </el-row>
                     </div>
 
+                </el-col>
+                <el-col :span='6'>
+                    <div class='form-group'>
+                        <el-row :gutter='20'>
+                            <el-col :span='8' type="flex" justify="end">
+                                <label class="form-lable2">~</label>
+                            </el-col>
+                            <el-col :span='16'>
+                                <el-date-picker type="date" v-model="update_end" placeholder="选择日期"
+                                    :picker-options='endOptions'>
+                                </el-date-picker>
+                            </el-col>
+                        </el-row>
+                    </div>
                 </el-col>
 
             </el-row>
@@ -53,42 +63,41 @@
             <el-row :gutter='20'>
                 <el-col :span='6'>
                     <div class='form-group'>
+                        <el-row :gutter='20'>
+                            <el-col :span='7' type="flex" justify="end">
+                                <label class="form-lable">状态</label>
+                            </el-col>
+                            <el-col :span='17'>
+                                <el-select v-model="statuSelected">
+                                    <el-option v-for='(statu,index) in status' :key='index' :label="statu.message"
+                                        :value='statu.value'></el-option>
 
-                        <el-col :span='7' type="flex" justify="end">
-                            <label class="form-lable">状态</label>
-                        </el-col>
-                        <el-col :span='17'>
-                            <el-select v-model="statuSelected">
-                                <el-option v-for='(statu,index) in status' :key='index' :label="statu.message"
-                                    :value='statu.value'></el-option>
-
-                            </el-select>
-                        </el-col>
-
+                                </el-select>
+                            </el-col>
+                        </el-row>
                     </div>
                 </el-col>
                 <el-col :span='6'>
 
                     <div class='form-group'>
-                        <el-col :span='7' type="flex" justify="end">
-                            <label class="form-lable">类&emsp;型</label>
-                        </el-col>
-                        <el-col :span='17'>
-                            <el-select v-model="typeSelected">
-                                <el-option v-for='(type,index) in types' :key='index' :label="type.message"
-                                    :value='type.value'></el-option>
-                            </el-select>
-                        </el-col>
+                        <el-row :gutter='20'>
+                            <el-col :span='7' type="flex" justify="end">
+                                <label class="form-lable">类&emsp;型</label>
+                            </el-col>
+                            <el-col :span='17'>
+                                <el-select v-model="typeSelected">
+                                    <el-option v-for='(type,index) in types' :key='index' :label="type.message"
+                                        :value='type.value'></el-option>
+                                </el-select>
+                            </el-col>
+                        </el-row>
                     </div>
-
                 </el-col>
-
-
             </el-row>
 
             <el-row>
                 <el-col :span='24' class='button-group'>
-                    <el-button type="danger" round>清空</el-button>
+                    <el-button type="danger" round @click='clear'>清空</el-button>
                     <el-button type="success" round
                         v-on:click='getList(1,title,typeSelected,statuSelected,author,update_begin,update_end)'>搜索
                     </el-button>
@@ -101,7 +110,7 @@
         <div class='lists-panel'>
             <div class="list-header">
                 <strong>内容列表</strong>
-                <el-button class='add' size='mini' type="success">+新增</el-button>
+                <el-button class='add' size='mini' type="success" @click='add'>+新增</el-button>
             </div>
             <div class="body-panel">
 
@@ -126,7 +135,7 @@
                         <td>
                             <el-button size='mini' @click='changeStatus(list.id,list.status)'>
                                 {{list.status|upDownFilters}}</el-button>
-                            <el-button size='mini'>编辑</el-button>
+                            <el-button size='mini' @click='edit(list.id)'>编辑</el-button>
                             <el-button size='mini' @click='cutOut(list.id)'>删除</el-button>
                         </td>
                     </tr>
@@ -157,8 +166,8 @@
                 </el-table> -->
                 <el-row>
                     <el-col :span='24' class="pagination">
-                        <el-pagination @current-change="handleCurrentChange" :current-page.sync="pages.onPage"
-                            :page-size="10" layout="prev, pager, next, jumper" :total="pages.total">
+                        <el-pagination @current-change="handleCurrentChange" :current-page.sync="onPage" :page-size="10"
+                            layout="prev, pager, next, jumper" :total="total">
                         </el-pagination>
                     </el-col>
                 </el-row>
@@ -177,15 +186,22 @@
         changestatus,
         cut
     } from '@/api/OperatManage/ContentManage.js'
+    import {
+        time
+    } from '@/utils/date.js'
 
     export default {
         data: function () {
             return {
+                //开始日期规则  小于当天且小于结束日期
+                beginOptions: this.beginDate(),
+                //结束日期规则 小于当天且大于开始日期
+                endOptions: this.endDate(),
                 outerVisible: false,
-                pages: {
-                    onPage: 1,
-                    total: 100,
-                },
+                // pages: {
+                onPage: 1,
+                total: 100,
+                // },
                 title: null,
                 author: null,
                 update_begin: null,
@@ -197,10 +213,10 @@
                     value: null
                 }, {
                     message: '草稿',
-                    value: '0'
+                    value: 1
                 }, {
                     message: '上线',
-                    value: '1'
+                    value: 2
                 }],
                 typeSelected: null,
                 types: [{
@@ -219,21 +235,67 @@
             }
         },
         created() {
-            this.getList(this.pages.onPage)
+            this.getList(this.onPage)
         },
         methods: {
-
+            //开始日历
+            beginDate() {
+                let self = this
+                return {
+                    disabledDate(time) {
+                        if (self.update_end) {
+                            return time.getTime() > self.update_end //结束时间存在时，结束时间之后的天数都被禁用
+                        } else {
+                            return time.getTime() > Date.now() //结束时间不选时，结束时间最大值小于等于当天
+                        }
+                    }
+                }
+            },
+            //提出结束时间必须大于提出开始时间
+            endDate() {
+                let self = this
+                return {
+                    disabledDate(time) {
+                        if (self.update_begin) {
+                            return time.getTime() < self.update_begin || time.getTime() > Date.now()
+                        } else {
+                            return time.getTime() > Date.now() //开始时间不选时，结束时间最大值小于等于当天
+                        }
+                    }
+                }
+            },
+            clear() {
+                //    console.log(this.time(this.update_begin)) 
+                // console.log(this)
+                // this.title=null
+                // this.author=null
+                // this.update_begin=null;
+                // this.update_end=null;
+                // this.typeSelected=null;
+                // this.statuSelected=null;
+                this.title = this.author = this.update_begin = this.update_end = this.typeSelected = this
+                    .statuSelected = null
+            },
+            add() {
+                this.$router.push({
+                    name: 'contentDetails'
+                })
+            },
             handleCurrentChange() {
-                console.log(this.pages.onPage)
-                this.getList(this.pages.onPage, this.title, this.typeSelected, this.statuSelected, this.author, this
+                // console.log(this.onPage)
+                this.getList(this.onPage, this.title, this.typeSelected, this.statuSelected, this.author, this
                     .update_begin, this.update_end)
             },
 
-            getList(onPage, title, type, status, creatBy, creatAt, update_end) {
-                getlist(onPage, title, type, status, creatBy, creatAt, update_end)
+            getList(onPage, title, type, status, creatBy, update_begin, update_end) {
+                let start = time(update_begin)
+                let end = time(update_end)
+                getlist(onPage, title, type, status, creatBy, start, end)
                     .then((res) => {
                         console.log(res.data.data)
+                        console.log(res)
                         this.lists = res.data.data
+                        this.total = res.data.page.total
                     })
                     .catch((res) => {
                         console.log(res)
@@ -271,7 +333,7 @@
                             })
                             //重新请求当前数据
                             .then(() => {
-                                this.getList(this.pages.onPage, this.title, this.typeSelected, this
+                                this.getList(this.onPage, this.title, this.typeSelected, this
                                     .statuSelected, this.author, this
                                     .update_begin, this.update_end)
                             })
@@ -283,7 +345,14 @@
                         console.log(res)
                     })
             },
-
+            edit(id) {
+                this.$router.push({
+                    path: "contentDetails",
+                    query: {
+                        id,
+                    }
+                })
+            },
             cutOut(id) {
                 this.$confirm('确认删除吗？')
                     //确认则发起删除请求
@@ -298,7 +367,7 @@
                     })
                     //删除成功后重新请求界面
                     .then(() => {
-                        this.getList(this.pages.onPage, this.title, this.typeSelected, this
+                        this.getList(this.onPage, this.title, this.typeSelected, this
                             .statuSelected, this.author, this
                             .update_begin, this.update_end)
                     })
@@ -315,7 +384,7 @@
     .form-horizontal {
         margin-bottom: 30px;
         padding: 20px;
-        padding-bottom: 0;
+
         background-color: #fff;
         border-radius: 5px;
         border: 1px solid #F2F2F2;
@@ -323,6 +392,8 @@
     }
 
     .form-group {
+        margin-bottom: 20px;
+
         .form-lable {
             display: block;
             height: 40px;
@@ -347,14 +418,13 @@
         margin-top: 20px;
     }
 
-    .el-date-editor {
+    .el-date-editor,.el-select {
         width: 100%;
     }
 
-    .el-row {
-        margin-bottom: 20px;
-    }
-
+    // .el-row {
+    //     margin-bottom: 20px;
+    // }
 
     .lists-panel {
         background-color: #fff;

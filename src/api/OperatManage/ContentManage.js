@@ -1,16 +1,18 @@
 import Axios from "axios";
 
-var getlist = function(onPage,title,type,status,creatBy,creatAt,update_end){
+var getlist = function(onPage,title,type,status,creatBy,update_begin,update_end){
     let data = {
         pages:onPage,
         title:title,
         itype:type,
         status,
         update_by:creatBy,
-        update_begin:creatAt,
+        update_begin,
         update_end,
     }
     console.log(data)
+    // data = JSON.stringify(data)
+    // console.log(data)
     return Axios.get('/api/a/u/content/query',data)
 }
 

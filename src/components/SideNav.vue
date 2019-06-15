@@ -6,7 +6,7 @@
       <el-radio-button :label="true">收起</el-radio-button>
     </el-radio-group> -->
 
-    <el-menu default-active="welcome" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+    <el-menu  class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
       :collapse="$store.state.isCollapse" :router='true'>
 
 
@@ -45,6 +45,7 @@
   export default {
     data() {
       return {
+        activeIndex:"",
         isCollapse: this.$store.state.isCollapse,
         menus: [{
           title: '业务管理',
@@ -69,7 +70,7 @@
           icon: 'icon-yunyingguanli',
           items: [{
             name: '内容管理',
-            path: 'contentManage'
+            path: 'contentLists'
           }, {
             name: '消息列表',
             path: 'messageList'
@@ -99,11 +100,11 @@
           index: '4',
           icon: 'icon-huaban',
           items: [{
-            name: '账户密码',
-            path: 'idPwd'
+            name: '账户管理',
+            path: 'AccountList'
           }, {
             name: '修改密码',
-            path: 'revisePwd'
+            path: 'ChangePwd'
           }, {
             name: '角色管理',
             path: 'roleManage'
@@ -119,6 +120,9 @@
         console.log(key, keyPath);
       },
       handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleSelect(key, keyPath) {
         console.log(key, keyPath);
       }
     }
