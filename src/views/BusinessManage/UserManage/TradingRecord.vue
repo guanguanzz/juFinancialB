@@ -64,20 +64,20 @@
                 </tr>
                 <tr v-for="(item,index) in msg " :key="index" :class="index%2==0?'cs':'sc'">
                     <td>{{+index+1}}</td>
-                    <td>{{item.createAt}}</td>
+                    <td>{{item.createAt|timeFilters}}</td>
                     <td>{{item.phone}}</td>
                     <td>{{item.realName}}</td>
                     <td>{{item.transactionNo}}</td>
                     <td>{{item.productName}}</td>
                     <td>{{item.money}}</td>
-                    <td>{{item.type}}</td>
-                    <td>{{item.status}}</td>
+                    <td>{{item.type|loStatus(totalType[0],totalType[1])}}</td>
+                    <td>{{item.status|loStatus(totalStatus[0],totalStatus[1])}}</td>
                     <td>{{item.cardId}}</td>
                 </tr>
             </table>
-            <div class="block" style="margin-left: 50%;padding: 10px;">
+            <div class="block" style="margin-left: 40%;padding: 10px;">
                 <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                    :current-page.sync="currentPage" :page-size="100" layout="prev, pager, next, jumper" :total="1000">
+                    :current-page.sync="currentPage" :page-size="pageSize" layout="prev, pager, next, jumper" :total="total">
                 </el-pagination>
             </div>
         </div>
@@ -86,13 +86,18 @@
 
 <script>
     import '@/assets/scss/commonList.scss'
+    import {
+        transaction
+    } from '@/api/BusinessManage/UserManage/UserList.js'
+    import {
+        time
+    } from '@/utils/date.js'
     export default {
         data() {
             return {
                 productName: '',
                 type: '',
                 totalType: ['付款', '回款'],
-
                 status: '',
                 totalStatus: ['成功', '失败'],
                 msg: '',
@@ -100,13 +105,43 @@
                 listHead: ['序号', '交易时间', '手机号', '姓名', '交易流水', '产品名称', '交易金额(元)', '交易类型', '交易状态', '交易方式'],
                 currentPage: 1,
                 date1: '',
-                date2: ''
+                date2: '',
+                pageSize: 10, //每页条数
+                total: 100,
+                formInline: {},
+                params:{
+                    uid:'',
+                    productName:this.productName,
+                    type:this.type,
+                    createAtA:time(this.date1),
+                    createAtB:time(this.date2),
+                    status:this.status,
+                    pageNum:this.currentPage,
+                    pageCount:this.pageSize
+                }
             }
         },
+        created(){
+           this.search(this.params);
+        },
         computed: {
-
+            
         },
         methods: {
+             search(arg) { //搜索接口
+                transaction(arg).then(
+                    res => {
+                        if (res.status === 200) {
+                            this.msg = res.data.data.transaction;
+                            console.log(this.msg)
+            
+                            // this.total = res.data.data.user.length;
+                            // console.log(this.total);
+                            //   this.pageSize = ;
+                        }
+                    }
+                );
+            },
             empty() {
                 console.log('清空')
             },
@@ -116,9 +151,11 @@
 
             handleSizeChange(val) { // 每页多少
                 console.log(`每页 ${val} 条`);
+                 this.search(this.params);
             },
             handleCurrentChange(val) {
                 console.log(`当前页: ${val}`);
+                 this.search(this.params);
             }
         }
 
