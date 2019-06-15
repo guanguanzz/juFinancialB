@@ -37,3 +37,15 @@ table {
         text-align: center;
     }
 }
+
+//必选项  class直接加must
+.must{
+    position: relative;
+}
+
+.must::before{
+    content:'*';
+    position:absolute;
+    left:-10px;
+    color:red;
+}
