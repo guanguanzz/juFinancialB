@@ -1,111 +1,153 @@
 <template>
-  <div>
-    <div class="form-horizontal">
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <div class="form-group">
-            <el-col :span="7">
-              <label class="form-lable">标题</label>
-            </el-col>
-            <el-col :span="17">
-              <el-input v-model="title" size="small"></el-input>
-            </el-col>
-          </div>
+  <div class="form-horizontal">
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-col :span="7">
+          <label class="form-lable">产品名称</label>
         </el-col>
-        <el-col :span="6">
-          <div class="form-group">
-            <el-col :span="7" type="flex" justify="end">
-              <label class="form-lable">编辑者</label>
-            </el-col>
-            <el-col :span="17">
-              <el-input v-model="author" size="small"></el-input>
-            </el-col>
-          </div>
+        <el-col :span="17">
+          <el-input v-model="searchData.productName" size="small"></el-input>
         </el-col>
-        <el-col :span="12">
-          <div class="form-group">
-            <el-col :span="4" type="flex" justify="end">
-              <label class="form-lable">编辑时间</label>
-            </el-col>
-            <el-col :span="8">
-              <el-date-picker type="date" v-model="update_begin" size="small" placeholder="选择日期"></el-date-picker>
-            </el-col>
-          </div>
-          <div class="form-group">
-            <el-col :span="4" type="flex" justify="end">
-              <label class="form-lable2">~</label>
-            </el-col>
-            <el-col :span="8">
-              <el-date-picker type="date" size="small" v-model="update_end" placeholder="选择日期"></el-date-picker>
-            </el-col>
-          </div>
-        </el-col>
-      </el-row>
+      </el-col>
 
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <div class="form-group">
-            <el-col :span="7" type="flex" justify="end">
-              <label class="form-lable">状态</label>
-            </el-col>
-            <el-col :span="17">
-              <el-select v-model="statuSelected" size="small">
-                <el-option
-                  v-for="(statu,index) in status"
-                  :key="index"
-                  :label="statu.message"
-                  :value="statu.value"
-                ></el-option>
-              </el-select>
-            </el-col>
-          </div>
+      <el-col :span="6">
+        <el-col :span="7">
+          <label class="form-lable">起息日期</label>
         </el-col>
-        <el-col :span="6">
-          <div class="form-group">
-            <el-col :span="7" type="flex" justify="end">
-              <label class="form-lable">类&emsp;型</label>
-            </el-col>
-            <el-col :span="17">
-              <el-select v-model="typeSelected" size="small">
-                <el-option
-                  v-for="(type,index) in types"
-                  :key="index"
-                  :label="type.message"
-                  :value="type.value"
-                ></el-option>
-              </el-select>
-            </el-col>
-          </div>
+        <el-col :span="17">
+          <el-select v-model="searchData.startAt" placeholder="请选择" size="small">
+            <el-option
+              v-for="item in valueDate"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
         </el-col>
-      </el-row>
+      </el-col>
 
-      <el-row>
-        <el-col :span="24" class="button-group">
-          <el-button type="danger" round size="small">清空</el-button>
-          <el-button
-            type="success"
-            round
-            v-on:click="getList(1,title,typeSelected,statuSelected,author,update_begin,update_end)"
+      <el-col :span="12">
+        <el-col :span="4">
+          <label class="form-lable">年化收益</label>
+        </el-col>
+        <el-col :span="8">
+          <el-date-picker
+            type="date"
+            v-model="searchData.rateOfReturnA"
             size="small"
-          >搜索</el-button>
+            placeholder="选择日期"
+          ></el-date-picker>
         </el-col>
-      </el-row>
-    </div>
+        <el-col :span="4">
+          <label class="form-lable2">~</label>
+        </el-col>
+        <el-col :span="8">
+          <el-date-picker
+            type="date"
+            size="small"
+            v-model="searchData.rateOfReturnB"
+            placeholder="选择日期"
+          ></el-date-picker>
+        </el-col>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-col :span="7">
+          <label class="form-lable">起投金额</label>
+        </el-col>
+        <el-col :span="17">
+          <el-input v-model="searchData.minimum" size="small"></el-input>
+        </el-col>
+      </el-col>
+
+      <el-col :span="6">
+        <el-col :span="7" type="flex" justify="end">
+          <label class="form-lable">状&emsp;&emsp;态</label>
+        </el-col>
+        <el-col :span="17">
+          <el-select v-model="searchData.status" placeholder="请选择" size="small">
+            <el-option
+              v-for="item in status"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-col>
+      </el-col>
+
+      <el-col :span="12">
+        <el-col :span="4">
+          <label class="form-lable">期&emsp;&emsp;限</label>
+        </el-col>
+        <el-col :span="4">
+          <el-input v-model="searchData.timeLimitA" size="small"></el-input>
+        </el-col>
+        <el-col :span="4">
+          <el-select v-model="term" placeholder="请选择" size="small">
+            <el-option
+              v-for="item in termData"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="4">
+          <label class="form-lable2">~</label>
+        </el-col>
+        <el-col :span="4">
+          <el-input v-model="searchData.timeLimitB" size="small"></el-input>
+        </el-col>
+        <el-col :span="4">
+          <el-select v-model="term" placeholder="请选择" size="small">
+            <el-option
+              v-for="item in termData"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-col>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-col :span="7">
+          <label class="form-lable">产品代号</label>
+        </el-col>
+        <el-col :span="17">
+          <el-input v-model="searchData.productNo" size="mini"></el-input>
+        </el-col>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24" class="button-group">
+        <el-button type="danger" icon="el-icon-delete" size="mini">清空</el-button>
+        <el-button type="primary" icon="el-icon-search" v-on:click="getList()" size="mini">搜索</el-button>
+      </el-col>
+    </el-row>
+
     <!-- 表格 -->
     <div class="lists-panel">
       <div class="list-header">
-        <strong>内容列表</strong>
-        <el-button class="add" size="small" type="success">+新增</el-button>
+        <strong>产品列表</strong>
+        <el-button size="mini" type="primary" icon="el-icon-plus">新增</el-button>
       </div>
       <div class="body-panel">
         <table>
           <tr>
-            <th>序号</th>
-            <th>标题</th>
-            <th>类型</th>
+            <th>产品代号</th>
+            <th>产品名称</th>
+            <th>年化收益率(%)</th>
+            <th>期限</th>
+            <th>起头金额(元)</th>
+            <th>起息日期</th>
+            <th>推荐</th>
             <th>状态</th>
-            <th>编辑者</th>
-            <th>编辑时间</th>
             <th>操作</th>
           </tr>
           <tr v-for="(list,index) in lists" :key="index">
@@ -115,40 +157,17 @@
             <td>{{list.status|statusFilters}}</td>
             <td>{{list.update_by}}</td>
             <td>{{list.update_at*1000|timeFilters}}</td>
+            <td>{{list.update_by}}</td>
+            <td>{{list.update_at*1000|timeFilters}}</td>
             <td>
               <el-button
                 size="mini"
                 @click="changeStatus(list.id,list.status)"
               >{{list.status|upDownFilters}}</el-button>
               <el-button size="mini">编辑</el-button>
-              <el-button size="mini" @click="cutOut(list.id)">删除</el-button>
             </td>
           </tr>
         </table>
-
-        <!-- 
-                <el-table :data='lists' style='width:100%' stripe>
-                    <el-table-column type='index' align='center'></el-table-column>
-                    <el-table-column label='标题' prop='title' header-align='center' align='center'></el-table-column>
-                    <el-table-column label='类型' prop='itype' header-align='center' align='center'></el-table-column>
-
-                    <el-table-column label='状态' prop='status' header-align='center' align='center' width='50px'>
-                    </el-table-column>
-
-                    <el-table-column label='编辑者' prop='update_by' header-align='center' align='center'>
-                    </el-table-column>
-
-                    <el-table-column label='编辑时间' prop='update_at' header-align='center' align='center'>
-                    </el-table-column>
-                    <el-table-column label="操作" header-align='center' align='center'>
-
-                        <el-button size="mini">上线</el-button>
-                        <el-button size="mini">编辑</el-button>
-                        <el-button size="mini" type="danger">删除
-                        </el-button>
-
-                    </el-table-column>
-        </el-table>-->
         <el-row>
           <el-col :span="24" class="pagination">
             <el-pagination
@@ -175,155 +194,73 @@ import {
 export default {
   data: function() {
     return {
+      //搜索条件
+      searchData: {
+        startAt: "",
+        status: ""
+      },
+      //年化收益
+      valueDate: [
+        {
+          value: "",
+          label: "全部"
+        },
+        {
+          value: "T+1",
+          label: "正常"
+        },
+        {
+          value: "T+0",
+          label: "已冻结"
+        }
+      ],
+      //状态
+      status: [
+        {
+          value: "",
+          label: "全部"
+        },
+        {
+          value: "0",
+          label: "停售"
+        },
+        {
+          value: "1",
+          label: "在售"
+        }
+      ],
+      //期限
+      termData: [
+        {
+          value: "1",
+          label: "日"
+        },
+        {
+          value: "2",
+          label: "月"
+        }
+      ],
+      //期限
+      term: "1",
       outerVisible: false,
       pages: {
         onPage: 1,
         total: 100
       },
-      title: null,
-      author: null,
-      update_begin: null,
-      update_end: null,
+      //列表数据
       lists: [],
-      statuSelected: null,
-      status: [
-        {
-          message: "全部",
-          value: null
-        },
-        {
-          message: "草稿",
-          value: "0"
-        },
-        {
-          message: "上线",
-          value: "1"
-        }
-      ],
-      typeSelected: null,
-      types: [
-        {
-          message: "全部",
-          value: null
-        },
-        {
-          message: "banner推荐",
-          value: "banner推荐"
-        },
-        {
-          message: "帮助中心",
-          value: "帮助中心"
-        },
-        {
-          message: "关于我们",
-          value: "关于我们"
-        }
-      ]
     };
   },
   created() {
     this.getList(this.pages.onPage);
   },
   methods: {
-    handleCurrentChange() {
-      console.log(this.pages.onPage);
-      this.getList(
-        this.pages.onPage,
-        this.title,
-        this.typeSelected,
-        this.statuSelected,
-        this.author,
-        this.update_begin,
-        this.update_end
-      );
-    },
-
     getList(onPage, title, type, status, creatBy, creatAt, update_end) {
       getlist(onPage, title, type, status, creatBy, creatAt, update_end)
         .then(res => {
           console.log(res.data.data);
           this.lists = res.data.data;
         })
-        .catch(res => {
-          console.log(res);
-        });
-    },
-
-    changeStatus(id, status) {
-      let msg = "";
-      //变为目的状态
-      switch (status) {
-        case 1:
-          msg = "确认上线？";
-          status = 2;
-          break;
-        case 2:
-          msg = "确认下线？";
-          status = 1;
-          break;
-      }
-      this.$confirm(msg)
-        .then(() => {
-          //确认则发起改变状态请求
-          changestatus(id, status)
-            //成功则弹出成功信息
-            .then(res => {
-              switch (status) {
-                case 1:
-                  msg = "下线成功";
-                  break;
-                case 2:
-                  msg = "上线成功";
-                  break;
-              }
-              this.$alert(msg);
-            })
-            //重新请求当前数据
-            .then(() => {
-              this.getList(
-                this.pages.onPage,
-                this.title,
-                this.typeSelected,
-                this.statuSelected,
-                this.author,
-                this.update_begin,
-                this.update_end
-              );
-            })
-            .catch(res => {
-              console.log(res);
-            });
-        })
-        .catch(res => {
-          console.log(res);
-        });
-    },
-
-    cutOut(id) {
-      this.$confirm("确认删除吗？")
-        //确认则发起删除请求
-        .then(() => {
-          cut(id)
-            .then(() => {
-              this.$alert("删除成功");
-            })
-            .catch(res => {
-              console.log(res);
-            });
-        })
-        //删除成功后重新请求界面
-        .then(() => {
-          this.getList(
-            this.pages.onPage,
-            this.title,
-            this.typeSelected,
-            this.statuSelected,
-            this.author,
-            this.update_begin,
-            this.update_end
-          );
-        })
-        //任何错误都会打断此过程
         .catch(res => {
           console.log(res);
         });
@@ -341,21 +278,17 @@ export default {
   border: 1px solid #f2f2f2;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
-
-.form-group {
-  .form-lable {
-    display: block;
-    width: 100%;
-    line-height: 32px;
-    text-align: right;
-  }
-
-  .form-lable2 {
-    @extend .form-lable;
-    text-align: center;
-  }
+.form-lable {
+  display: block;
+  width: 100%;
+  line-height: 32px;
+  text-align: right;
 }
 
+.form-lable2 {
+  @extend .form-lable;
+  text-align: center;
+}
 .button-group {
   display: flex;
   justify-content: flex-end;
