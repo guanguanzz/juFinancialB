@@ -36,8 +36,26 @@ let timeFilters=function (value) {
     let ggg = Y + M + D + h + m +s
     return ggg;
 }
+
+let loStatus = function (value,a,b,c) {
+    switch (value) {
+        case 0:
+            value = a
+            break;
+        case 1:
+            value = b
+            break;
+        case 2:
+            value = c
+            break;
+    }
+    return value;
+}
+
 export {
     statusFilters,
     upDownFilters,
-    timeFilters
+    timeFilters,
+    loStatus
 }
+   

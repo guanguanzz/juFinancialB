@@ -15,7 +15,7 @@
 
         },
         created(){
-            console.log('dfsfsd')
+         
         },
         methods: {
             go() {

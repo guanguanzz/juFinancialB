@@ -2,7 +2,7 @@
 
 .listOne {
     position: relative;
-    margin: 20px;
+    margin-bottom: 20px;
     padding: 20px;
     border: 1px solid darkgray;
     border-radius: 10px;
@@ -11,18 +11,19 @@
 
 .listHead {
     @include flex(space-between, center);
-    margin: 20px 20px 0 20px;
+    // margin: 20px 20px 0 20px;
     padding: 10px;
     border: 1px solid darkgray;
     border-radius: 10px 10px 0 0;
 }
 
 .list {
-    margin: 0 20px 20px 20px;
+    // margin: 0 20px 20px 20px;
     padding: 10px;
     border: 1px solid darkgray;
     border-radius: 0 0 10px 10px;
     border-top: 0;
+    
 }
 
 .listTwo {
@@ -63,3 +64,16 @@ a {
     color: white;
     background-color: darkcyan;
 }
+
+ .el-form-item__content{
+    width: 68%;
+}
+.nameList .el-form--inline .el-form-item{
+   width: 100%;
+}
+.investmentRecord .el-form-item__content{
+    width: 55%;
+}
+.investmentRecord .el-form--inline .el-form-item{
+    width: 100%;
+ }

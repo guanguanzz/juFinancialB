@@ -1,6 +1,7 @@
 <template>
     <div>
-        配&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;图 <label class="ui_button ui_button_primary picture"
+        配&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;图 
+        <label class="ui_button ui_button_primary picture"
             for="xFile">选择文件</label>
         <form>
             <input type="file" id="xFile" style="opacity:0;width: 0;" :value="removes" accept="image/*"
@@ -32,7 +33,7 @@
 
 <script>
     export default {
-        name:'uploadPicture',
+        name: 'uploadPicture',
         data() {
             return {
                 removes: '', //   用来清空input file中的文件
@@ -128,7 +129,7 @@
 
     table {
         margin: 0 0 0 85px;
-
+        // width:100%;
         th {
             padding: 10px;
         }
