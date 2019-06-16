@@ -35,7 +35,7 @@
                                 <label class="form-lable">编辑时间</label>
                             </el-col>
                             <el-col :span='16'>
-                                <el-date-picker type="date" v-model="update_begin" placeholder="选择日期"
+                                <el-date-picker type="date" v-model="updateBegin" placeholder="选择日期"
                                     :picker-options='beginOptions'>
                                 </el-date-picker>
                             </el-col>
@@ -50,7 +50,7 @@
                                 <label class="form-lable2">~</label>
                             </el-col>
                             <el-col :span='16'>
-                                <el-date-picker type="date" v-model="update_end" placeholder="选择日期"
+                                <el-date-picker type="date" v-model="updateEnd" placeholder="选择日期"
                                     :picker-options='endOptions'>
                                 </el-date-picker>
                             </el-col>
@@ -99,7 +99,7 @@
                 <el-col :span='24' class='button-group'>
                     <el-button type="danger" round @click='clear'>清空</el-button>
                     <el-button type="success" round
-                        v-on:click='getList(1,title,typeSelected,statuSelected,author,update_begin,update_end)'>搜索
+                        v-on:click='getList(1,title,typeSelected,statuSelected,author,updateBegin,updateEnd)'>搜索
                     </el-button>
                 </el-col>
             </el-row>
@@ -130,8 +130,8 @@
                         <td>{{list.title}}</td>
                         <td>{{list.itype}}</td>
                         <td :class="list.status===1 ? 'red' : 'green'">{{list.status|statusFilters}}</td>
-                        <td>{{list.update_by}}</td>
-                        <td>{{list.update_at*1000|timeFilters}}</td>
+                        <td>{{list.updateBy}}</td>
+                        <td>{{list.updateAt*1000|timeFilters}}</td>
                         <td>
                             <el-button size='mini' @click='changeStatus(list.id,list.status)'
                                 :class="list.status===2 ? 'red' : 'green'">
@@ -154,7 +154,7 @@
                     <el-table-column label='编辑者' prop='update_by' header-align='center' align='center'>
                     </el-table-column>
 
-                    <el-table-column label='编辑时间' prop='update_at' header-align='center' align='center'>
+                    <el-table-column label='编辑时间' prop='updateAt' header-align='center' align='center'>
                     </el-table-column>
                     <el-table-column label="操作" header-align='center' align='center'>
 
@@ -189,7 +189,7 @@
         getlist,
         changestatus,
         cut
-    } from '@/api/OperatManage/ContentManage.js'
+    } from '@/api/OperatManage/ContentManage/ContentLists.js'
     import {
         time
     } from '@/utils/date.js'
@@ -208,8 +208,8 @@
                 // },
                 title: null,
                 author: null,
-                update_begin: null,
-                update_end: null,
+                updateBegin: null,
+                updateEnd: null,
                 lists: [],
                 statuSelected: null,
                 status: [{
@@ -239,7 +239,7 @@
             }
         },
         created() {
-            this.getList(this.onPage,this.title,this.typeSelected,this.statuSelected, this.author, this.update_begin, this.update_end)
+            this.getList(this.onPage,this.title,this.typeSelected,this.statuSelected, this.author, this.updateBegin, this.updateEnd)
         },
         methods: {
             //开始日历
@@ -247,8 +247,8 @@
                 let self = this
                 return {
                     disabledDate(time) {
-                        if (self.update_end) {
-                            return time.getTime() > self.update_end //结束时间存在时，结束时间之后的天数都被禁用
+                        if (self.updateEnd) {
+                            return time.getTime() > self.updateEnd //结束时间存在时，结束时间之后的天数都被禁用
                         } else {
                             return time.getTime() > Date.now() //结束时间不选时，结束时间最大值小于等于当天
                         }
@@ -260,8 +260,8 @@
                 let self = this
                 return {
                     disabledDate(time) {
-                        if (self.update_begin) {
-                            return time.getTime() < self.update_begin || time.getTime() > Date.now()
+                        if (self.updateBegin) {
+                            return time.getTime() < self.updateBegin || time.getTime() > Date.now()
                         } else {
                             return time.getTime() > Date.now() //开始时间不选时，结束时间最大值小于等于当天
                         }
@@ -270,7 +270,7 @@
             },
             //情况
             clear() {
-                this.title = this.author = this.update_begin = this.update_end = this.typeSelected = this
+                this.title = this.author = this.updateBegin = this.updateEnd = this.typeSelected = this
                     .statuSelected = null
             },
             //新增
@@ -283,12 +283,12 @@
             handleCurrentChange() {
                 // console.log(this.onPage)
                 this.getList(this.onPage, this.title, this.typeSelected, this.statuSelected, this.author, 
-                this.update_begin, this.update_end)
+                this.updateBegin, this.updateEnd)
             },
             //获取列表
-            getList(onPage, title, type, status, creatBy, update_begin, update_end) {
-                let start = time(update_begin)
-                let end = time(update_end)
+            getList(onPage, title, type, status, creatBy, updateBegin, updateEnd) {
+                let start = time(updateBegin)
+                let end = time(updateEnd)
                 getlist(onPage, title, type, status, creatBy, start, end)
                     .then((res) => {
                         console.log(res.data.data)
@@ -343,7 +343,7 @@
                             .then(() => {
                                 this.getList(this.onPage, this.title, this.typeSelected, this
                                     .statuSelected, this.author, this
-                                    .update_begin, this.update_end)
+                                    .updateBegin, this.updateEnd)
                             })
                             .catch((res) => {
                                 console.log(res)
@@ -388,7 +388,7 @@
                     .then(() => {
                         this.getList(this.onPage, this.title, this.typeSelected, this
                             .statuSelected, this.author, this
-                            .update_begin, this.update_end)
+                            .updateBegin, this.updateEnd)
                     })
                     //任何错误都会打断此过程
                     .catch((res) => {

@@ -2,52 +2,77 @@
     <div>
         <div>
             <div class="panel">
-                <div class="panel-title">{{page_title}}</div>
+                <div class="panel-title">参数设置</div>
                 <div class="panel-body">
-                    <div class='form-group'>
-                        <el-row :gutter='20'>
-                            <el-col :span='4'>
-                                <label class='form-label must'>标题名称</label>
-                            </el-col>
-                            <el-col :span='16'>
-                                <el-input v-model="title"></el-input>
-                            </el-col>
-                        </el-row>
-                    </div>
-                    <div class='form-group'>
-                        <el-row :gutter='20'>
-                            <div class='form-group'>
-                                <el-col :span='4'>
-                                    <label class='form-label must'>类&emsp;&emsp;型</label>
-                                </el-col>
-                                <el-col :span='16'>
-                                    <el-select class='form-element' v-model="typeSelected">
-                                        <el-option v-for='(type,index) in types' :key='index' :label="type.message"
-                                            :value='type.value'></el-option>
-                                    </el-select>
-                                </el-col>
-                            </div>
-                        </el-row>
-                    </div>
-                    <div class='form-group'>
-                        <el-row :gutter='20'>
-                            <el-col :span='4'>
-                                <label class='form-label must'>内&emsp;&emsp;容</label>
-                            </el-col>
-                            <el-col :span='16'>
-                                <uploadImg @upImgOk='upImg' :IMG='url'></uploadImg>
-                            </el-col>
-                        </el-row>
-                    </div>
 
                     <div class='form-group'>
-                        <el-row :gutter='20'>
-                            <el-col :span='12' :offset='4'>
-                                <el-button @click='handleOnline' :disabled='isOK'>保存</el-button>
-                                <el-button @click='handleDraft' :disabled='isOK'>还原</el-button>
-                            </el-col>
-                        </el-row>
+                        <div class="panel">
+                            <div class="panel-title">公章上传</div>
+                            <div class="panel-body">
+                                <div class='form-group'>
+                                    <el-row :gutter='20'>
+                                        <el-col :span='4'>
+                                            <label class='form-label must'>公&emsp;&emsp;章</label>
+                                        </el-col>
+                                        <el-col :span='16'>
+                                            <uploadImg @upImgOk='upImg' :IMG='url'></uploadImg>
+                                        </el-col>
+                                    </el-row>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div class="panel">
+                        <div class="panel-title">提醒设置</div>
+                        <div class="panel-body" style="padding-bottom:15px;">
+                            <el-row :gutter="20">
+                                <el-col :span='8'>
+                                    <div class="form-group">
+                                        <el-row :gutter="20">
+                                            <el-col :span='12'> <label class="form-label">投资到期消息提前天数</label></el-col>
+                                            <el-col :span='12'>
+                                                <el-input v-model="invest" maxlength='2'
+                                                    oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+                                            </el-col>
+                                        </el-row>
+                                    </div>
+                                </el-col>
+                                <el-col :span='8'>
+                                    <div class="form-group">
+                                        <el-row :gutter="20">
+                                            <el-col :span='12'> <label class="form-label">债权到期提前天数
+                                                </label></el-col>
+                                            <el-col :span='12'>
+                                                <el-input v-model="creditor" maxlength='2'
+                                                    oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+                                            </el-col>
+                                        </el-row>
+                                    </div>
+                                </el-col>
+                                <el-col :span='8'>
+                                    <div class="form-group">
+                                        <el-row :gutter="20">
+                                            <el-col :span='12'> <label class="form-label">总债权投满警戒线</label></el-col>
+                                            <el-col :span='12'>
+                                                <el-input v-model="alert" maxlength='2'
+                                                    oninput="value=value.replace(/[^\d]/g,'')"> <template
+                                                        slot="append">%</template>
+                                                </el-input>
+                                            </el-col>
+                                        </el-row>
+                                    </div>
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </div>
+                </div>
+                <div class='form-group'>
+                    <el-row :gutter='20'>
+                        <el-col :span='12' :offset='4'>
+                            <el-button :disabled='isOK' @click='save'>保存</el-button>
+                            <el-button @click='back'>还原</el-button>
+                        </el-col>
+                    </el-row>
                 </div>
             </div>
 
@@ -57,110 +82,38 @@
 <script>
     import uploadImg from '@/components/UploadImg.vue'
     import {
-        bianji,
-        add,
-        alter
-    } from '@/api/OperatManage/ContentManage/ContentDetails.js'
+        recover,
+        store
+    } from '@/api/OperatManage/ParaManage.js'
     export default {
         components: {
             uploadImg
         },
         data: function () {
             return {
-                page_title: '参数设置',
-                id: this.$route.query.id,
-                title: null,
-                typeSelected: null,
-                types: [{
-                    message: 'banner推荐',
-                    value: 'banner推荐'
-                }, {
-                    message: '帮助中心',
-                    value: '帮助中心'
-                }, {
-                    message: '关于我们',
-                    value: '关于我们'
-                }],
                 url: null,
+                invest: null,
+                creditor: null,
+                alert: null
             }
         },
         computed: {
             isOK() {
-                return (!this.title || !this.typeSelected || !this.url)
+                return (!this.url || !this.invest || !this.creditor || !this.alert)
             }
         },
-        created() {
-            // console.log(this.id)
-            if (this.id) {
-                this.page_title = '编辑'
-                this.edit()
-            }
-        },
+        created() {},
         methods: {
-            //如果是编辑初始化数据
-            edit() {
-                bianji(this.id)
-                    .then((res) => {
-                        // console.log(res.data.data)
-                        this.title = res.data.data.title
-                        this.url = res.data.data.img_url
-                        // console.log(this.url)
-                        this.typeSelected = res.data.data.itype
-                    })
-                    .catch((res) => {
-                        console.log(res)
-                    })
-            },
-            //
+            //上传图片给子组件
             upImg(data) {
                 this.url = data
             },
-            //代理上线按钮
-            handleOnline() {
-                if (this.$route.query.id) {
-                    this.alterRight(2)
-                } else {
-                    this.addRight(2)
-                }
-            },
-            //代理草稿按钮
-            handleDraft() {
-                if (this.$route.query.id) {
-                    this.alterRight(1)
-                } else {
-                    this.addRight(1)
-                }
-            },
-            //新增接口
-            addRight(status) {
-                add(this.title, this.typeSelected, this.url, status)
+            save() {
+                store(this.url, this.invest, this.creditor, this.alert)
                     .then((res) => {
                         this.$message({
-                            message: '新增成功',
+                            message: '保存成功',
                             type: 'success'
-                        });
-                        this.$router.push({
-                            path: '/ContentLists'
-                        })
-                    })
-                    .catch((res) => {
-                        console.log(res)
-                        this.$message({
-                            message: '发生了一些错误',
-                            type: 'error'
-                        });
-                    })
-            },
-            //编辑接口
-            alterRight(status) {
-                alter(this.title, this.typeSelected, this.url, status, this.id)
-                    .then((res) => {
-                        this.$message({
-                            message: '修改成功',
-                            type: 'success'
-                        });
-                        this.$router.push({
-                            path: '/contentLists'
                         })
                     })
                     .catch((res) => {
@@ -172,10 +125,28 @@
                     })
             },
             back() {
-                this.$router.push({
-                    path: '/contentLists'
-                })
+                recover()
+                    .then((res) => {
+                        console.log(res)
+                        this.url = res.data.data.imgUrl
+                        console.log(this.url)
+                        this.invest = res.data.data.invest
+                        this.creditor = res.data.data.creditor
+                        this.alert = res.data.data.alert
+                        this.$message({
+                            message: '还原成功',
+                            type: 'success'
+                        })
+                    })
+                    .catch((res) => {
+                        console.log(res)
+                        this.$message({
+                            message: '发生了一些错误',
+                            type: 'error'
+                        });
+                    })
             }
+
         }
     }
 </script>

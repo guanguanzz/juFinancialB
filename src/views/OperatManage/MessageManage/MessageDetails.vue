@@ -2,7 +2,7 @@
     <div>
         <div>
             <div class="panel">
-                <div class="panel-title">{{page_title}}</div>
+                <div class="panel-title">新增</div>
                 <div class="panel-body">
                     <div class='form-group'>
                         <el-row :gutter='20'>
@@ -36,7 +36,7 @@
                                 <label class='form-label must'>简&emsp;&emsp;述</label>
                             </el-col>
                             <el-col :span='16'>
-                                <el-input type="textarea" maxlength="30" show-word-limit v-model="desc_"></el-input>
+                                <el-input type="textarea" maxlength="30" show-word-limit v-model="descAt"></el-input>
                             </el-col>
                         </el-row>
                     </div>
@@ -47,7 +47,7 @@
                                 <label class='form-label must'>内&emsp;&emsp;容</label>
                             </el-col>
                             <el-col :span='16'>
-                                <uploadImg @upImgOk='upImg' :IMG='url'></uploadImg>
+                                <uploadImg @upImgOk='upImg'></uploadImg>
                             </el-col>
                         </el-row>
                     </div>
@@ -76,7 +76,7 @@
                                 </el-col>
                                 <el-col :span='16'>
                                     <el-date-picker format="yyyy 年 MM 月 dd 日 hh 时 mm 分 ss 秒" value-format="timestamp"
-                                        v-model="read_time" type="datetime" placeholder="选择日期时间"
+                                        v-model="readTime" type="datetime" placeholder="选择日期时间"
                                         :picker-options='dateOption' default-time="12:00:00">
                                     </el-date-picker>
                                 </el-col>
@@ -114,10 +114,9 @@
         },
         data: function () {
             return {
-                page_title: '新增',
                 title: null, //标题
-                desc_: null, //描述
-                read_time: null, //定时发送的时间
+                descAt: null, //描述
+                readTime: null, //定时发送的时间
                 peopleSelected: null, //发送人群
                 people: [{
                     message: '所有人',
@@ -140,8 +139,8 @@
         },
         computed: {
             isOK() {
-                return (!this.title || !this.peopleSelected || !this.url || !this.desc_ || this.typeSelected === 2 && !
-                    this.read_time || !this.typeSelected)
+                return (!this.title || !this.peopleSelected || !this.url || !this.descAt || this.typeSelected === 2 && !
+                    this.readTime || !this.typeSelected)
             }
         },
         methods: {
@@ -158,7 +157,7 @@
             },
             //新增接口
             addRight(status) {
-                add(this.title, this.peopleSelected, this.desc_, this.url, this.typeSelected, this.read_time, status)
+                add(this.title, this.peopleSelected, this.descAt, this.url, this.typeSelected, this.readTime, status)
                     .then((res) => {
                         this.$message({
                             message: '新增成功',
