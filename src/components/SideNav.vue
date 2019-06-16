@@ -6,10 +6,10 @@
       <el-radio-button :label="true">收起</el-radio-button>
     </el-radio-group> -->
 
-    <el-menu  class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+    <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
       :collapse="$store.state.isCollapse" :router='true'>
 
-
+ 
       <!-- <div class="topBar-brand"> 
         <img src='../assets/img/Logo.jpg'>  
          </div>
@@ -53,16 +53,16 @@
           index: '1',
           items: [{
             name: '用户管理',
-            path: 'userList'
+            path: '/userList'
           }, {
             name: '实名认证',
-            path: 'nameList'
+            path: '/nameList'
           }, {
             name: '产品管理',
-            path: 'productManage'
+            path: '/productManage'
           }, {
             name: '债券管理',
-            path: 'debtManage'
+            path: '/debtManage'
           }]
         }, {
           title: '运营管理',
@@ -70,22 +70,22 @@
           icon: 'icon-yunyingguanli',
           items: [{
             name: '内容管理',
-            path: 'contentLists'
+            path: '/contentLists'
           }, {
             name: '消息列表',
-            path: 'messageList'
+            path: '/messageLists'
           }, {
             name: '银行管理',
-            path: 'bankManage'
+            path: '/bankManage'
           }, {
             name: '参数设置',
-            path: 'paraManage'
+            path: '/paraManage'
           }, {
             name: '意见反馈',
-            path: 'opinionFeed'
+            path: '/opinionFeed'
           }, {
             name: '版本管理',
-            path: 'editionManage'
+            path: '/editionManage'
           }]
         }, {
           title: '统计信息',
@@ -93,7 +93,7 @@
           icon: 'icon-tongji',
           items: [{
             name: '销量统计',
-            path: 'saleCensus'
+            path: '/saleCensus'
           }]
         }, {
           title: '后台管理',
@@ -101,16 +101,16 @@
           icon: 'icon-huaban',
           items: [{
             name: '账户管理',
-            path: 'AccountList'
+            path: '/accountList'
           }, {
             name: '修改密码',
-            path: 'ChangePwd'
+            path: '/changePwd'
           }, {
             name: '角色管理',
-            path: 'roleManage'
+            path: '/roleManage'
           }, {
             name: '模块管理',
-            path: 'moduleManage'
+            path: '/moduleManage'
           }]
         }, ]
       };
@@ -137,7 +137,7 @@
   .logo {
     padding-left: 0px !important;
     cursor: default;
-
+ background-color: #fff;
     &:hover {
       background-color: #fff;
     }

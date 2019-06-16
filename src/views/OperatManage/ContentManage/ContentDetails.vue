@@ -63,7 +63,7 @@
         bianji,
         add,
         alter
-    } from '@/api/OperatManage/ContentDetails.js'
+    } from '@/api/OperatManage/ContentManage/ContentDetails.js'
     export default {
         components: {
             uploadImg
@@ -163,7 +163,7 @@
                             type: 'success'
                         });
                         this.$router.push({
-                            path: '/ContentLists'
+                            path: '/contentLists'
                         })
                     })
                     .catch((res) => {
@@ -176,7 +176,7 @@
             },
             back() {
                 this.$router.push({
-                    path: '/ContentLists'
+                    path: '/contentLists'
                 })
             }
         }
