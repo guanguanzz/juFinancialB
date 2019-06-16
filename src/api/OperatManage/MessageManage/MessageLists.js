@@ -4,16 +4,14 @@ var getlist = function(onPage,title,type,status,creatBy,update_begin,update_end)
     let data = {
         pages:onPage,
         title:title,
-        itype:type,
+        send:type,
         status,
         update_by:creatBy,
         update_begin,
         update_end,
     }
     console.log(data)
-    // data = JSON.stringify(data)
-    // console.log(data)
-    return Axios.get('/api/a/u/content/query',data)
+    return Axios.get('/api/a/u/word/query',data)
 }
 
 var changestatus = function(id,status){
@@ -21,12 +19,13 @@ var changestatus = function(id,status){
         id,
         status:status,
     }
-    data=JSON.stringify(data)
-    return Axios.put('/api/a/u/content/up',data)
+    data = JSON.stringify(data)
+    console.log(data)
+    return Axios.put('/api/a/u/word/alter',data)
 }
 
 var cut = function(id){
-    return Axios.delete(`/api/a/u/content/del/${id}`,)
+    return Axios.delete(`/api/a/u/word/del/${id}`,)
 }
 
 export {getlist,changestatus,cut} 

@@ -67,13 +67,19 @@
                 if (el.target.files.length > 0) {
                     this.removes = '';
                 }
-                this.precent=0
-                this.whether=''
+                this.precent = 0
+                this.whether = ''
                 let curFiles = el.target.files[0];
                 this.name = curFiles.name;
                 this.size = Math.ceil(curFiles.size / 1024) + 'KB';
-                this.fileSrc = window.URL.createObjectURL(curFiles); //本地图片预览
-                this.$emit('upImgOk',null)
+                let reader = new FileReader();
+                reader.readAsDataURL(curFiles); //用来转格式的
+                var self = this; //否则这里的this指向 FileReader
+                //这个函数是用来预览图片的
+                reader.onload = function () {
+                    self.fileSrc = this.result //地址储存的路径
+                }
+                this.$emit('upImgOk', null)
             },
             uploadingPrecent() { //上传
                 var formDataOne = new FormData();
@@ -85,7 +91,7 @@
                         // console.log(completed)
                         this.precent = completed
                     }
-                }
+                } 
                 upImg(formDataOne, config)
                     .then((response) => {
                         console.log(response)
@@ -144,6 +150,7 @@
 
     img {
         margin: 14px 0;
-        max-width: 100%;
+        width: 400px;
+        height: 400px;
     }
 </style>
