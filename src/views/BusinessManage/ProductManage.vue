@@ -151,14 +151,14 @@
             <th>操作</th>
           </tr>
           <tr v-for="(list,index) in lists" :key="index">
-            <td>{{index+1}}</td>
-            <td>{{list.title}}</td>
-            <td>{{list.itype}}</td>
-            <td>{{list.status|statusFilters}}</td>
-            <td>{{list.update_by}}</td>
-            <td>{{list.update_at*1000|timeFilters}}</td>
-            <td>{{list.update_by}}</td>
-            <td>{{list.update_at*1000|timeFilters}}</td>
+            <td>{{list.productNo}}</td>
+            <td>{{list.productName}}</td>
+            <td>{{list.rateOfReturn}}</td>
+            <td>{{list.timeLimit}}</td>
+            <td>{{list.minimum}}</td>
+            <td>{{list.startAt}}</td>
+            <td>{{list.recommend}}</td>
+            <td>{{list.status}}</td>
             <td>
               <el-button
                 size="mini"
@@ -171,11 +171,11 @@
         <el-row>
           <el-col :span="24" class="pagination">
             <el-pagination
+              @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page.sync="pages.onPage"
-              :page-size="10"
-              layout="prev, pager, next, jumper"
-              :total="pages.total"
+              :page-sizes="[5, 10, 20, 30]"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"
             ></el-pagination>
           </el-col>
         </el-row>
@@ -185,11 +185,7 @@
   </div>
 </template>
 <script>
-import {
-  getlist,
-  changestatus,
-  cut
-} from "@/api/OperatManage/ContentManage.js";
+import listAjax from "@/api/BusinessManage/ProductManage.js";
 
 export default {
   data: function() {
@@ -243,28 +239,34 @@ export default {
       //期限
       term: "1",
       outerVisible: false,
-      pages: {
-        onPage: 1,
-        total: 100
-      },
       //列表数据
       lists: [],
+      //总数量
+      total: 0
     };
   },
-  created() {
-    this.getList(this.pages.onPage);
-  },
   methods: {
-    getList(onPage, title, type, status, creatBy, creatAt, update_end) {
-      getlist(onPage, title, type, status, creatBy, creatAt, update_end)
-        .then(res => {
-          console.log(res.data.data);
-          this.lists = res.data.data;
-        })
-        .catch(res => {
-          console.log(res);
-        });
+    getList: function() {
+      var this_ = this;
+      listAjax.getList(this.searchData).then(reap => {
+        console.log(reap);
+        this_.lists = reap.data.data.product;
+        this_.total = reap.data.data.page.total;
+      });
+    },
+    //每页数量事件
+    handleSizeChange(val) {
+      this.searchData.pageCount = val;
+      this.getList();
+    }, 
+    //第几页事件
+    handleCurrentChange(val) {
+      this.searchData.pageNum = val;
+      this.getList();
     }
+  },
+  created() {
+    this.getList();
   }
 };
 </script>

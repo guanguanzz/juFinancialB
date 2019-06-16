@@ -5,7 +5,7 @@ const listAjax = {}
 
 
 listAjax.getList = function (params) {
-    return axios.get("/api/a/u/product" ,JSON.parse(params))
+    return axios.get("/api/a/u/product" ,params)
 }
 listAjax.postImg = function (params, config) {
     console.log(params)
