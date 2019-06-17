@@ -1,0 +1,80 @@
+.container {
+    background-color: #fff;
+    padding: 30px;
+}
+
+.user-content {
+    height: 25px;
+}
+
+.btn {
+    padding: 7px 15px;
+    line-height: 1.2;
+    border-style: none;
+    border: 1px solid ：#F2F2F2;
+    font-weight: 500;
+}
+
+.btn.add {
+    position: absolute;
+    right: 30px;
+}
+
+.user-list {
+    // padding: 12px 0 0 0;
+    margin-top: 30px;
+    border: 1px solid #F2F2F2;
+}
+
+.userLsit-title {
+    position: relative;
+    display: flex;
+    height: 50px;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #F2F2F2;
+
+    .list-word {
+        padding-left: 29px;
+        color: black;
+        font-weight: bold;
+    }
+}
+
+.table-panel{
+    padding: 20px;
+}
+
+.table-set {
+    width: 100%;
+    border: 1px solid;
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    th {
+        border: 1px solid #F5F7F9;
+        padding: 5px;
+    }
+
+    tr {
+        height: 50px;
+    }
+
+    td {
+        text-align: center;
+        border: 1px solid #F2F2F2;
+    }
+
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    // margin-top: 25px;
+    margin: 15px 0 15px 0;
+    margin-right: 40px;
+    height: 50px;
+    background-color: #fff;
+}
+

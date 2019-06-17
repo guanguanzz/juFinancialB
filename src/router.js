@@ -87,27 +87,36 @@ export default new Router({
           path:'/editionManage',
           name:'editionManage',
            component:()=>import("@/views/OperatManage/EditionManage.vue")
-         },{
-          path:'/saleCensus',
-          name:'saleCensus',
-           component:()=>import("@/views/DateMessage/SaleCensus.vue")
+         },{ //统计信息
+          path:'/salesStatistic',
+          name:'salesStatistic',
+           component:()=>import("@/views/StatisticManage/SalesStatistic.vue")
+         },{ //销量详情
+          path:'salesDetail',
+          name:'/salesDetail',
+          component:()=>import("@/views/StatisticManage/SalesDetail.vue")
          },{//账户管理
-          path:'/AccountList',
-          name:'AccountList',
+          path:'/accountList',
+          name:'accountList',
            component:()=>import("@/views/BackstageManage/AccountManage/AccountList.vue")
-         },{ //账户管理新增
-           path:'/AccountDetail',
-           name:'AccountDetail',
+         },{ //账户管理新增/编辑
+           path:'/accountDetail',
+           name:'accountDetail',
            component:()=>import("@/views/BackstageManage/AccountManage/AccountDetail.vue") 
          },{  //修改密码
-          path:'/ChangePwd',
-          name:'ChangePwd',
+          path:'/changePwd',
+          name:'changePwd',
            component:()=>import("@/views/BackstageManage/ChangePwd/ChangePwd.vue")
          },{ //角色管理
           path:'/roleManage',
           name:'roleManage',
            component:()=>import("@/views/BackstageManage/RoleManage/RoleManage.vue")
-         },{ //模块管理
+         },{ //角色新增
+          path:'/roleDetail',
+          name:'roleDetail',
+           component:()=>import("@/views/BackstageManage/RoleManage/RoleDetail.vue")
+         },
+         { //模块管理
           path:'/moduleManage',
           name:'moduleManage',
            component:()=>import("@/views/BackstageManage/ModuleManage/ModuleManage.vue")

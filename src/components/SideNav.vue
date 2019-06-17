@@ -92,7 +92,7 @@
           icon: 'icon-tongji',
           items: [{
             name: '销量统计',
-            path: 'saleCensus'
+            path: 'SalesStatistic',
           }]
         }, {
           title: '后台管理',
@@ -100,16 +100,16 @@
           icon: 'icon-huaban',
           items: [{
             name: '账户管理',
-            path: 'AccountList'
+            path: '/accountList'
           }, {
             name: '修改密码',
-            path: 'ChangePwd'
+            path: '/changePwd'
           }, {
             name: '角色管理',
-            path: 'roleManage'
+            path: '/roleManage'
           }, {
             name: '模块管理',
-            path: 'moduleManage'
+            path: '/moduleManage'
           }]
         }, ]
       };

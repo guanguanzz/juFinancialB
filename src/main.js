@@ -7,6 +7,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/scss/reset.scss' //reset 样式
 import '@/assets/scss/iconFont/iconfont.css'//阿里云图标
+import '@/assets/scss/backstageManage.scss' //后台管理公用css样式
 
 //全局导入过滤器
 import filter from "@/filters/index.js"
