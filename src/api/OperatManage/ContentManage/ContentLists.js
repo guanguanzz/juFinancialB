@@ -1,14 +1,14 @@
 import Axios from "axios";
 
-var getlist = function(onPage,title,type,status,creatBy,update_begin,update_end){
+var getlist = function(onPage,title,type,status,updateBy,updateBegin,updateEnd){
     let data = {
         pages:onPage,
         title:title,
         itype:type,
         status,
-        update_by:creatBy,
-        update_begin,
-        update_end,
+        updateBy,
+        updateBegin,
+        updateEnd,
     }
     console.log(data)
     // data = JSON.stringify(data)
@@ -21,6 +21,7 @@ var changestatus = function(id,status){
         id,
         status:status,
     }
+    data=JSON.stringify(data)
     return Axios.put('/api/a/u/content/up',data)
 }
 

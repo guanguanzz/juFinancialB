@@ -119,7 +119,7 @@
                     <tr>
                         <th>序号</th>
                         <th>标题</th>
-                        <th>类型</th>
+                        <th>发送人群</th>
                         <th>状态</th>
                         <th>编辑者</th>
                         <th>编辑时间</th>
@@ -128,7 +128,7 @@
                     <tr v-for='(list,index) in lists' :key=index>
                         <td>{{index+1}}</td>
                         <td>{{list.title}}</td>
-                        <td>{{list.itype}}</td>
+                        <td>{{list.send|sendPeople}}</td>
                         <td :class="list.status===1 ? 'red' : 'green'">{{list.status|statusFilters}}</td>
                         <td>{{list.updateBy}}</td>
                         <td>{{list.updateAt*1000|timeFilters}}</td>
@@ -136,7 +136,6 @@
                             <el-button size='mini' @click='changeStatus(list.id,list.status)'
                                 :class="list.status===2 ? 'red' : 'green'">
                                 {{list.status|upDownFilters}}</el-button>
-                            <el-button size='mini' @click='edit(list.id)'>编辑</el-button>
                             <el-button size='mini' @click='cutOut(list.id)'>删除</el-button>
                         </td>
                     </tr>
@@ -151,7 +150,7 @@
                     <el-table-column label='状态' prop='status' header-align='center' align='center' width='50px'>
                     </el-table-column>
 
-                    <el-table-column label='编辑者' prop='update_by' header-align='center' align='center'>
+                    <el-table-column label='编辑者' prop='updateBy' header-align='center' align='center'>
                     </el-table-column>
 
                     <el-table-column label='编辑时间' prop='updateAt' header-align='center' align='center'>
@@ -189,7 +188,7 @@
         getlist,
         changestatus,
         cut
-    } from '@/api/OperatManage/ContentManage/ContentLists.js'
+    } from '@/api/OperatManage/MessageManage/MessageLists.js'
     import {
         time
     } from '@/utils/date.js'
@@ -224,17 +223,11 @@
                 }],
                 typeSelected: null,
                 types: [{
-                    message: '全部',
-                    value: null
+                    message: '所有人',
+                    value: 1
                 }, {
-                    message: 'banner推荐',
-                    value: 'banner推荐'
-                }, {
-                    message: '帮助中心',
-                    value: '帮助中心'
-                }, {
-                    message: '关于我们',
-                    value: '关于我们'
+                    message: '认证投资人',
+                    value: 2
                 }],
             }
         },
@@ -276,7 +269,7 @@
             //新增
             add() {
                 this.$router.push({
-                    name: 'contentDetails'
+                    name: 'messageDetails'
                 })
             },
             //分页栏改变当前页
@@ -394,6 +387,20 @@
                     .catch((res) => {
                         console.log(res)
                     })
+            },
+        },
+        filters:{
+            sendPeople(value){
+                let msg
+                switch(value){
+                    case 0:
+                    msg = '所有人'
+                    break;
+                    case 1:
+                    msg='认证投资人'
+                    break;
+                }
+                return msg
             }
         }
 
@@ -413,6 +420,7 @@
     .form-horizontal {
         margin-bottom: 30px;
         padding: 20px;
+
         background-color: #fff;
         border-radius: 5px;
         border: 1px solid #F2F2F2;

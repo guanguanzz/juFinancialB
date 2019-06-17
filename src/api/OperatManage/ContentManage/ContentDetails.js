@@ -8,7 +8,7 @@ let add = (title, type, url,status) => {
     let data = {
         title,
         itype: type,
-        img_url: url,
+        imgUrl: url,
         status,
     }
     data = JSON.stringify(data)
@@ -20,7 +20,7 @@ let alter = (title, type, url,status,id) => {
     let data = {
         title,
         itype: type,
-        img_url: url,
+        imgUrl: url,
         status,
         id,
     }

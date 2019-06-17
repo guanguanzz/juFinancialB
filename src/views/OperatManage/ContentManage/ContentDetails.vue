@@ -63,7 +63,7 @@
         bianji,
         add,
         alter
-    } from '@/api/OperatManage/ContentDetails.js'
+    } from '@/api/OperatManage/ContentManage/ContentDetails.js'
     export default {
         components: {
             uploadImg
@@ -106,7 +106,7 @@
                     .then((res) => {
                         // console.log(res.data.data)
                         this.title = res.data.data.title
-                        this.url = res.data.data.img_url
+                        this.url = res.data.data.imgUrl
                         // console.log(this.url)
                         this.typeSelected = res.data.data.itype
                     })
@@ -163,7 +163,7 @@
                             type: 'success'
                         });
                         this.$router.push({
-                            path: '/ContentLists'
+                            path: '/contentLists'
                         })
                     })
                     .catch((res) => {
@@ -176,7 +176,7 @@
             },
             back() {
                 this.$router.push({
-                    path: '/ContentLists'
+                    path: '/contentLists'
                 })
             }
         }

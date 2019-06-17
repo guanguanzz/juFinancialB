@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="accountTitle">
-      <span class="accountWord">新增账户</span>
+      <span class="accountWord">{{headText}}</span>
     </div>
 
     <div class="input-panel">
@@ -61,8 +61,13 @@
         <!-- <button class="btn ensure">确定</button> -->
         <!-- <button class="btn cancel">取消</button> -->
 
-        <el-button class="btn ensure" type="success">确定</el-button>
-        <el-button class="btn cancel" type="danger">取消</el-button>
+        <el-button class="btn ensure" type="success" @click="btnEnsure">确定</el-button>
+        <el-button class="btn cancel" type="danger">
+          <router-link to="AccountList" class="word cancel" tag="div">取消</router-link>
+        </el-button>
+
+
+
       </div>
 
 
@@ -95,18 +100,39 @@
         phoneNum: "",
         password: "",
         passwordDouble: "",
+        headText: "新增账户",
+        id: ""
 
       }
     },
+    created(){
+      console.log(this.$route.params)
+      this.loginName = this.$route.params.username
+      this.phoneNum = this.$route.params.phone
+      this.id = this.$route.query.id
+      if(this.id){ //如果是query传参过来有id，则显示编辑
+      this.headText = "编辑账户"  
+      }
+      this.value = this.$route.params.roleId
+
+
+
+    },
     methods:{
-      BlurTest(e){
-        let rightNum = new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$").test(e.target.value)
-        if(!rightNum){
-          // this.$message.warning('请正确输入')
-          // e.target.value = ''
-          alert("请输入正确的手机号")
-          e.target.value = ''
-        }
+      BlurTest(e){ //输入框失焦后触发--不需要这个需求，但是需要点击确定后进行校验表单内容
+        // let rightNum = new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$").test(e.target.value)
+        // if(!rightNum){
+        //   // this.$message.warning('请正确输入')
+        //   // e.target.value = ''
+        //   alert("请输入正确的手机号")
+        //   e.target.value = ''
+        // }
+
+
+
+      },
+      btnEnsure(){
+        
       }
     }
   
@@ -162,9 +188,15 @@
     width: 140px;
     border-style: none;
     border-radius: 5px;
+    cursor: pointer!important;
   }
   
   .btn.cancel {
     margin-left: 30px;
   }
+
+  // .word.cancel{
+  //   text-decoration: none;
+  //   color: #fff;
+  // }
 </style>

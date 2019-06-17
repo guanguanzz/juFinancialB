@@ -37,8 +37,8 @@
                 <!-- <button class="btn search">
                     查询
                 </button> -->
-                 <el-button type="info">重置</el-button>
-                 <el-button type="success">查询</el-button>
+                <el-button size="mini" type="info" @click="clear">重置</el-button>
+                <el-button size="mini" type="success" @click="search">查询</el-button>
             </el-col>
         </el-row>
 
@@ -70,23 +70,23 @@
                         <tr v-for="(item, index) in inform" :key="index">
                             <td>{{item.aid}}</td>
                             <td>{{item.username}}</td>
-                            <td>{{item.role_name}}</td>
-                            <td>{{item.create_by}}</td>
+                            <td>{{item.roleName}}</td>
+                            <td>{{item.createBy}}</td>
                             <td>
-                                <div>{{item.create_at | timeChange}}</div>
+                                <div>{{item.createAt | timeFilters}}</div>
                                 <!-- <div>{{item.create_at | formatDate2}}</div> -->
                             </td>
-                            <td>{{item.update_by}}</td>
+                            <td>{{item.updateBy}}</td>
                             <td>
-                                <div>{{item.update_at | timeChange}}</div>
+                                <div>{{item.updateAt | timeFilters}}</div>
                                 <!-- <div>{{item.update_at | formatDate2}}</div> -->
                             </td>
                             <td>
                                 <!-- <button class="btn edit">编辑</button> -->
                                 <!-- <button class="btn delete">删除</button> -->
 
-                                <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                                <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                <el-button size="mini" @click="editBtn(item.aid)">编辑</el-button>
+                                <el-button size="mini" type="danger" @click="deleteBtn(item.aid)">删除</el-button>
                             </td>
                         </tr>
                     </tbody>
@@ -154,17 +154,77 @@
 
 
             },
-            
+            clear() {
 
 
 
-            add() {
-                this.$router.push("AccountDetail")
             },
+            search() {
+
+
+
+
+            },
+            add() { //新增
+                this.$router.push("accountDetail")
+            },
+            editBtn(id) { //编辑--请求详情内容
+                https.accountGet(id)
+                    .then(res => {
+                        let data = res.data.data
+                        console.log(res.data.data)
+
+                        this.$router.push({
+                            name: "accountDetail",
+                            params: { //保存从单条信息接口获取的数据，到新增页面提取
+                                aid: data.aid,
+                                username: data.username,
+                                roleId: data.roleId,
+                                phone: data.phone
+                            },
+                            query: {
+                                id: `${id}`
+                            }
+                        })
+                    })
+
+            },
+            deleteBtn(id) { //删除
+
+                https.accountDelete(id)
+                    .then(res => {
+                        console.log(res.data.msg)
+                        if (res.data.msg == "success") {
+                            console.log(412312)
+
+                            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消',
+                                type: 'warning'
+                            }).then(() => {
+                                this.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                            }).catch(() => {
+                                this.$message({
+                                    type: 'info',
+                                    message: '已取消删除'
+                                });
+                            });
+
+
+
+                        } else {
+                            console.log(xxxx)
+                        }
+                    })
+
+
+
+
+            }
         },
-
-
-
 
 
 
@@ -173,18 +233,7 @@
     }
 </script>
 <style lang="scss" scoped>
-    .container {
-        background-color: #fff;
-        padding: 30px;
-    }
-
-    // .select-header {
-    //   display: flex;
-    //   padding: 30px;
-    //   background-color: rgb(250, 250, 250);
-    //   align-items: center;
-    // }
-
+    //搜索
     .select-bkg {
         background-color: #fff;
     }
@@ -205,86 +254,5 @@
     .btn-panel {
         text-align: right;
         padding-right: 20px;
-    }
-
-    .user-content {
-        height: 25px;
-    }
-
-    .btn {
-        padding: 7px 15px;
-        line-height: 1.2;
-        border-style: none;
-        border: 1px solid ：#F2F2F2;
-        font-weight: 500;
-
-        // .btn.reset {
-        //     background-color: #fff;
-        // }
-
-        // .btn.search {
-        //     background-color: rgb(226, 222, 219)
-        // }
-    }
-
-    .btn.add {
-        position: absolute;
-        right: 20px;
-    }
-
-    .user-list {
-        // padding: 12px 0 0 0;
-        margin-top: 30px;
-    }
-
-    .userLsit-title {
-        position: relative;
-        display: flex;
-        height: 50px;
-        align-items: center;
-        background-color: #fff;
-        border: 1px solid #F2F2F2;
-
-        .list-word {
-            padding-left: 37px;
-            color: black;
-            font-weight: bold;
-        }
-    }
-
-    // .table-panel {
-    //     padding: 10px;
-    // }
-
-    .table-set {
-        width: 100%;
-        border: 1px solid;
-        border-spacing: 0;
-        border-collapse: collapse;
-
-        th {
-            border: 1px solid #F2F2F2;
-            padding: 5px;
-        }
-
-        tr {
-            height: 50px;
-        }
-
-        td {
-            text-align: center;
-            border: 1px solid #F2F2F2;
-        }
-
-    }
-
-    .pagination {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        margin-top: 25px;
-        margin-right: 40px;
-        height: 50px;
-        background-color: #fff;
     }
 </style>

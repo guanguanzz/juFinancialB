@@ -62,9 +62,9 @@ export default new Router({
           component: () => import("@/views/OperatManage/ContentManage/ContentDetails.vue")
         },
         {
-          path: '/messageList',
-          name: 'messageList', //消息列表
-          component: () => import("@/views/OperatManage/MessageManage/MessageList.vue")
+          path: '/messageLists',
+          name: 'messageLists', //消息列表
+          component: () => import("@/views/OperatManage/MessageManage/MessageLists.vue")
         },
         {
           path: '/messageDetails',
@@ -76,10 +76,15 @@ export default new Router({
           name: 'look',
           component: () => import("@/views/BusinessManage/NameApprove/Look.vue")
         },
-        {
+        {//产品管理
           path: '/productManage',
           name: 'productManage',
-          component: () => import("@/views/BusinessManage/ProductManage.vue")
+          component: () => import("@/views/BusinessManage/ProductManage/ProductManage.vue")
+        },
+         {//产品管理新增编辑
+          path: '/addOrUpdate',
+          name: 'addOrUpdate',
+          component: () => import("@/views/BusinessManage/ProductManage/AddOrUpdate.vue")
         },
         {
           path: '/bankManage',
@@ -102,35 +107,63 @@ export default new Router({
           component: () => import("@/views/OperatManage/EditionManage/EditionManage.vue")
         },
         {
-          path: '/saleCensus',
-          name: 'saleCensus',
-          component: () => import("@/views/DateMessage/SaleCensus.vue")
-        },
-        { //账户管理
-          path: '/AccountList',
-          name: 'AccountList',
-          component: () => import("@/views/BackstageManage/AccountManage/AccountList.vue")
-        },
-        { //账户管理新增
-          path: '/AccountDetail',
-          name: 'AccountDetail',
-          component: () => import("@/views/BackstageManage/AccountManage/AccountDetail.vue")
-        },
-        { //修改密码
-          path: '/ChangePwd',
-          name: 'ChangePwd',
-          component: () => import("@/views/BackstageManage/ChangePwd/ChangePwd.vue")
-        },
-        { //角色管理
-          path: '/roleManage',
-          name: 'roleManage',
-          component: () => import("@/views/BackstageManage/RoleManage/RoleManage.vue")
-        },
-        { //模块管理
-          path: '/moduleManage',
-          name: 'moduleManage',
-          component: () => import("@/views/BackstageManage/ModuleManage/ModuleManage.vue")
-        },
+          path:'/debtManage',
+          name:'debtManage',
+          component:()=>import("@/views/BusinessManage/DebtManage.vue")
+         },
+         {
+          path:'/NameList',
+          name:'NameList',
+          component:()=>import("@/views/BusinessManage/NameApprove/NameList.vue")
+         },
+         {
+          path:'/productManage',
+          name:'productManage',
+          component:()=>import("@/views/BusinessManage/DebtManage.vue")
+         },
+         {
+          path:'/contentLists',
+          name:'contentLists',
+           component:()=>import("@/views/OperatManage/ContentManage/ContentLists.vue")
+         },
+         {
+          path:'/paraManage',
+          name:'paraManage',
+           component:()=>import("@/views/OperatManage/ParaManage.vue")
+         },{ //统计信息
+          path:'/salesStatistic',
+          name:'salesStatistic',
+           component:()=>import("@/views/StatisticManage/SalesStatistic.vue")
+         },{ //销量详情
+          path:'salesDetail',
+          name:'/salesDetail',
+          component:()=>import("@/views/StatisticManage/SalesDetail.vue")
+         },{//账户管理
+          path:'/accountList',
+          name:'accountList',
+           component:()=>import("@/views/BackstageManage/AccountManage/AccountList.vue")
+         },{ //账户管理新增/编辑
+           path:'/accountDetail',
+           name:'accountDetail',
+           component:()=>import("@/views/BackstageManage/AccountManage/AccountDetail.vue") 
+         },{  //修改密码
+          path:'/changePwd',
+          name:'changePwd',
+           component:()=>import("@/views/BackstageManage/ChangePwd/ChangePwd.vue")
+         },{ //角色管理
+          path:'/roleManage',
+          name:'roleManage',
+           component:()=>import("@/views/BackstageManage/RoleManage/RoleManage.vue")
+         },{ //角色新增
+          path:'/roleDetail',
+          name:'roleDetail',
+           component:()=>import("@/views/BackstageManage/RoleManage/RoleDetail.vue")
+         },
+         { //模块管理
+          path:'/moduleManage',
+          name:'moduleManage',
+           component:()=>import("@/views/BackstageManage/ModuleManage/ModuleManage.vue")
+         },
       ]
     },
   ]
