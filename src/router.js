@@ -62,9 +62,9 @@ export default new Router({
           component: () => import("@/views/OperatManage/ContentManage/ContentDetails.vue")
         },
         {
-          path: '/messageList',
-          name: 'messageList', //消息列表
-          component: () => import("@/views/OperatManage/MessageManage/MessageList.vue")
+          path: '/messageLists',
+          name: 'messageLists', //消息列表
+          component: () => import("@/views/OperatManage/MessageManage/MessageLists.vue")
         },
         {
           path: '/messageDetails',
