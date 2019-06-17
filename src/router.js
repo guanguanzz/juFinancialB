@@ -76,10 +76,15 @@ export default new Router({
           name: 'NameList',
           component: () => import("@/views/BusinessManage/NameApprove/NameList.vue")
         },
-        {
+        {//产品管理
           path: '/productManage',
           name: 'productManage',
-          component: () => import("@/views/BusinessManage/ProductManage.vue")
+          component: () => import("@/views/BusinessManage/ProductManage/ProductManage.vue")
+        },
+         {//产品管理新增编辑
+          path: '/addOrUpdate',
+          name: 'addOrUpdate',
+          component: () => import("@/views/BusinessManage/ProductManage/AddOrUpdate.vue")
         },
         {
           path: '/bankManage',
