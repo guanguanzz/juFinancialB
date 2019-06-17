@@ -77,7 +77,7 @@
             </table>
             <div class="block" style="margin-left: 40%;padding: 10px;">
                 <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                    :current-page.sync="currentPage" :page-size="pageSize" layout="prev, pager, next, jumper" :total="total">
+                    :current-page.sync="currentPage" :page-size="pageSize" layout="total,prev, pager, next, jumper" :total="total">
                 </el-pagination>
             </div>
         </div>

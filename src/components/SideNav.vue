@@ -53,10 +53,10 @@
           index: '1',
           items: [{
             name: '用户管理',
-            path: 'userList'
+            path: 'lookUser'
           }, {
             name: '实名认证',
-            path: 'nameList'
+            path: 'look'
           }, {
             name: '产品管理',
             path: 'productManage'

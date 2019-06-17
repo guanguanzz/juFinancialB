@@ -4,37 +4,27 @@
     position: relative;
     margin-bottom: 20px;
     padding: 20px;
-    border: 1px solid darkgray;
     border-radius: 10px;
     background-color: white;
 }
 
 .listHead {
     @include flex(space-between, center);
-    // margin: 20px 20px 0 20px;
     padding: 10px;
-    border: 1px solid darkgray;
     border-radius: 10px 10px 0 0;
 }
 
 .list {
-    // margin: 0 20px 20px 20px;
     padding: 10px;
-    border: 1px solid darkgray;
     border-radius: 0 0 10px 10px;
     border-top: 0;
     
 }
 
 .listTwo {
-    border: 1px solid darkgray;
     @include w-h(100%, 100%);
     background-color: white;
     text-align: center;
-
-    tr {
-        border-bottom: 1px solid darkgray;
-    }
 
     img {
         @include w-h(50px, 50px);

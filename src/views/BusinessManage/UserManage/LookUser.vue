@@ -26,20 +26,20 @@
                     <el-row :gutter="20">
                         <el-col :span="5">
                             <el-form-item label="手机号">
-                                <el-input v-model="phone" placeholder="" :disabled="isShowOne"></el-input>
+                                <el-input v-model=" params.phone" placeholder="" :disabled="isShowOne"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="4">
                             <el-button type="primary" @click="amend" size='mini' :style=" { display:oneIfShow}">修改
                             </el-button>
-                            <el-button type="primary" @click="save" size="mini" :style=" { display:ifShowOne}">保存
+                            <el-button type="primary" @click="save(1)" size="mini" :style=" { display:ifShowOne}">保存
                             </el-button>
-                            <el-button type="primary" @click="cancelOne" size="mini" :style=" { display:ifShowOne}">取消
+                            <el-button type="primary" @click="cancel(1)" size="mini" :style=" { display:ifShowOne}">取消
                             </el-button>
                         </el-col>
                         <el-col :span="7">
                             <el-form-item label="注册时间">
-                                <el-input placeholder="" :disabled="true">{{createAt|timeChange}}</el-input>
+                                <el-input placeholder="" :value="createAt | timeChange" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="7" :offset="1">
@@ -87,27 +87,40 @@
                     <el-row :gutter="20">
                         <el-col :span="8">
                             <el-form-item label="工号">
-                                <el-input v-model="manager" placeholder="" :disabled="isShowTwo"></el-input>
-
+                                <el-input v-model=" params.manager" placeholder="" :disabled="isShowTwo"></el-input>
                             </el-form-item>
                         </el-col>
-                   
-                    <el-button type="primary" @click="change" size="mini" :style=" { display:twoIfShow}">更换
-                    </el-button>
-                    <el-button type="primary" @click="save" :style=" { display:ifShowTwo}" size="mini">保存
-                    </el-button>
-                    <el-button type="primary" @click="cancelTwo" :style=" { display:ifShowTwo}" size="mini">取消
-                    </el-button>
-                     </el-row>
+
+                        <el-button type="primary" @click="change" size="mini" :style=" { display:twoIfShow}">更换
+                        </el-button>
+                        <el-button type="primary" @click="save(2)" :style=" { display:ifShowTwo}" size="mini">保存
+                        </el-button>
+                        <el-button type="primary" @click="cancel(2)" :style=" { display:ifShowTwo}" size="mini">取消
+                        </el-button>
+                    </el-row>
                 </form>
             </div>
 
             <div :style=" { display:ifShow}">
                 <h3 class="title">证件信息</h3>
                 <form action="" class="listHead">
-                   <span>身份证正面:</span> <img :src="positiveUrl" alt="配图预览" :onerror='errorGoodsImg'>
-                    身份证反面:<img :src="backUrl" alt="配图预览" :onerror='errorGoodsImg'>
-                    <el-button type="primary" @click="cancelName" size="mini">取消实名</el-button>
+                    <el-row :gutter="20">
+                        <el-col :span="3">
+                            <label for="">身份证正面:</label>
+                        </el-col>
+                        <el-col :span="6">
+                            <img :src="positiveUrl" alt="配图预览" :onerror='errorGoodsImg'>
+                        </el-col>
+                        <el-col :span="3">
+                            <label for="">身份证反面:</label>
+                        </el-col>
+                        <el-col :span="6">
+                            <img :src="backUrl" alt="配图预览" :onerror='errorGoodsImg'>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-button type="primary" @click="cancelName" size="mini">取消实名</el-button>
+                        </el-col>
+                    </el-row>
                 </form>
 
             </div>
@@ -170,7 +183,9 @@
 <script>
     // import '@/assets/scss/commonList.scss'
     import {
-        lookUser
+        lookUser,
+        amendUser,
+        bankcard
     } from '@/api/BusinessManage/UserManage/UserList.js'
     export default {
         data() {
@@ -180,7 +195,6 @@
                 userNo: '', //用户编号
                 realName: '',
                 cardNo: '', //身份证号
-                phone: '',
                 isShowOne: true,
                 isShowTwo: true,
                 ifShow: 'block',
@@ -192,26 +206,42 @@
                 address: '',
                 assets: '', //总资产
                 income: '', //累计收益
-                manager: '',
                 positiveUrl: '', //身份证正面
                 backUrl: '', //反面
                 errorGoodsImg: 'this.src="' + require('@/assets/img/show.png') + '"', //初始图 已定不需要更改
                 incomeOne: '', //银行卡一
                 incomeTwo: '', //银行卡二
-                bankOne: '', //开户银行一
+                bankOne: '', //开户银行一 名字
                 bankTwo: '', //开户银行二
+                bankidOne:'',
+                bankidTwo:'',
                 bank: '',
                 oneIfShow: 'inline',
                 ifShowOne: 'none',
                 twoIfShow: 'inline',
                 ifShowTwo: 'none',
+                params: {
+                    uid: '',
+                    phone: '',
+                    manager: '',
+                    realStatus: ''
+                }
             }
         },
         created() {
             this.search(1);
         },
         computed: {
-
+   
+        },
+        watch: {
+            params: {
+                deep: true,
+                handler: function (a, b) {
+                    console.log(a, '新参数');
+                    console.log(b, '老参数');
+                }
+            }
         },
         methods: {
             search(arg) { //搜索接口
@@ -222,30 +252,36 @@
                             this.bank = res.data.data.bankInfo;
                             console.log(this.msg);
                             console.log(this.bank);
+
                             this.userNo = this.msg.userNo;
                             this.realName = this.msg.realName;
                             this.cardNo = this.msg.cardNo;
                             this.email = this.msg.email;
                             this.assets = this.msg.assets;
                             this.address = this.msg.address;
+                            this.createAt = this.msg.createAt;
                             this.income = this.msg.income;
-                            this.phone = this.msg.phone;
-                            this.manager = this.msg.manager;
-                            this.positiveUrl = this.msg.positiveUrl;
-                            this.backUrl = this.msg.backUrl;
+                            this.params.uid = this.msg.id;
+                            this.params.phone = this.msg.phone;
+                            this.params.manager = this.msg.manager;
+                            // this.positiveUrl = this.msg.positiveUrl;
+                            // this.backUrl = this.msg.backUrl;
                             if (this.bank.length == 0) {
                                 this.ifShowThere = 'none';
                             } else if (this.bank.length == 1) {
                                 this.ifShowFour = ' inline';
                                 this.bankOne = this.bank[0].bankName;
                                 this.incomeOne = this.bank[0].cardNumber;
+                                this.bankidOne = this.bank[0].bid;
                             } else {
                                 this.ifShowFour = ' inline';
                                 this.ifShowFive = ' inline';
                                 this.bankOne = this.bank[0].bankName;
                                 this.incomeOne = this.bank[0].cardNumber;
+                                 this.bankidOne = this.bank[0].bid;
                                 this.bankTwo = this.bank[1].bankName;
                                 this.incomeTwo = this.bank[1].cardNumber;
+                                 this.bankidOne = this.bank[1].bid;
                             }
 
                             // this.total = res.data.data.user.length;
@@ -271,20 +307,30 @@
                 this.ifShowTwo = 'inline';
                 this.twoIfShow = 'none';
             },
-            save() { //保存
+            save(a) { //保存
                 this.$confirm(`保存修改个人信息, 确认修改?`, '操作提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    amendUser(item.id, formDataTwo).then(
+                    amendUser(this.params.uid, this.params).then(
                         res => {
+                            console.log(this.params)
                             console.log(res)
                             if (res.data.code === 0) {
                                 this.$message({
                                     type: 'success',
                                     message: `修改成功!`
                                 });
+                                if (a === 1) {
+                                    this.isShowOne = true;
+                                    this.ifShowOne = 'none';
+                                    this.oneIfShow = 'inline';
+                                } else {
+                                    this.isShowTwo = true;
+                                    this.ifShowTwo = 'none';
+                                    this.twoIfShow = 'inline';
+                                }
                             } else {
                                 this.$message({
                                     type: 'success',
@@ -300,37 +346,39 @@
                     });
                 });
             },
-            cancelOne() { //取消1
-                this.ifShowOne = 'none';
-                this.oneIfShow = 'inline';
-                this.isShowOne = true;
-            },
-            cancelTwo() { //取消2
-                this.ifShowTwo = 'none';
-                this.twoIfShow = 'inline';
-                this.isShowTwo = true;
+            cancel(a) { //取消
+                if (a === 1) {
+                    this.isShowOne = true;
+                    this.ifShowOne = 'none';
+                    this.oneIfShow = 'inline';
+                } else {
+                    this.isShowTwo = true;
+                    this.ifShowTwo = 'none';
+                    this.twoIfShow = 'inline';
+                }
             },
             cancelName() { //取消实名
-
                 this.$confirm(`取消实名吗?`, '操作提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    amendUser(item.id, formDataTwo).then(
+                    this.params.realStatus = 3;
+                     amendUser(this.params.uid, this.params).then(
                         res => {
+                            console.log(this.params)
                             console.log(res)
                             if (res.data.code === 0) {
-                                this.ifShow = 'none';
-                                this.ifShowThere = 'none';
                                 this.$message({
                                     type: 'success',
-                                    message: `修改成功!`
+                                    message: `成功!`
                                 });
+                             this.ifShow = 'none';
+                             this.ifShowThere = 'none';
                             } else {
                                 this.$message({
                                     type: 'success',
-                                    message: `修改失败!`
+                                    message: `失败!`
                                 });
                             }
                         }
@@ -349,19 +397,24 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    amendUser(item.id, formDataTwo).then(
+                    bankcard(this.bankidOne).then(
                         res => {
                             console.log(res)
                             if (res.data.code === 0) {
                                 this.ifShowFour = 'none';
+                                this.bankOne = '';
+                                if(this.bankTwo == ''){
+                                   this.ifShowThere = 'none';
+                                }
                                 this.$message({
                                     type: 'success',
-                                    message: `修改成功!`
+                                    message: `成功!`
                                 });
+                                
                             } else {
                                 this.$message({
                                     type: 'success',
-                                    message: `修改失败!`
+                                    message: `失败!`
                                 });
                             }
                         }
@@ -379,19 +432,23 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    amendUser(item.id, formDataTwo).then(
+                    bankcard(this.bankidTwo).then(
                         res => {
                             console.log(res)
                             if (res.data.code === 0) {
-                                this.isShowFive = false;
+                                this.isShowFive = 'none';
+                                this.bankTwo = '';
+                                  if(this.bankOne == ''){
+                                   this.ifShowThere = 'none';
+                                }
                                 this.$message({
                                     type: 'success',
-                                    message: `修改成功!`
+                                    message: `成功!`
                                 });
                             } else {
                                 this.$message({
                                     type: 'success',
-                                    message: `修改失败!`
+                                    message: `失败!`
                                 });
                             }
                         }

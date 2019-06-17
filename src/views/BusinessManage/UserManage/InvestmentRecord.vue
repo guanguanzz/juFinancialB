@@ -98,7 +98,7 @@
             </table>
             <div class="block" style="margin-left: 40%;padding: 10px;">
                 <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                    :current-page.sync="currentPage" :page-size="100" layout="prev, pager, next, jumper" :total="1000">
+                    :current-page.sync="currentPage" :page-size="pageSize" layout="total,prev, pager, next, jumper" :total="total">
                 </el-pagination>
             </div>
         </div>
@@ -135,6 +135,7 @@
                 formInline: {},
                 currentPage: 1,
                 pageSize: 10, //每页条数
+                total:100,
                 params:{
                     uid:'',
                     productName:this.productName,

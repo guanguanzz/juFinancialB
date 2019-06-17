@@ -62,7 +62,7 @@
                 </tr>
                 <tr v-for="(item,index) in msg " :key="index" :class="index%2==0?'cs':'sc'">
                     <td>{{item.userNo}}</td>
-                    <td>{{item.createAt|timeFilters}}</td>
+                    <td>{{item.createAt|timeChange}}</td>
                     <td>{{item.phone}}</td>
                     <td>{{item.manager}}</td>
                     <td>{{item.realName}}</td>
@@ -82,7 +82,7 @@
                         <div class="block" style="padding: 20px 0;">
                             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                                 :current-page.sync="currentPage" :page-size="pageSize"
-                                layout="prev, pager, next, jumper" :total="total">
+                                layout="total,prev, pager, next, jumper" :total="total">
                             </el-pagination>
                         </div>
                     </div>

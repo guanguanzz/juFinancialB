@@ -42,9 +42,9 @@ export default new Router({
           component: () => import("@/views/Welcome.vue")
         },
         {
-          path: '/UserList',
-          name: 'userList',
-          component: () => import("@/views/BusinessManage/UserManage/UserList.vue")
+          path: '/LookUser',
+          name: 'lookUser',
+          component: () => import("@/views/BusinessManage/UserManage/LookUser.vue")
         },
         {
           path: '/debtManage',
@@ -72,9 +72,9 @@ export default new Router({
           component: () => import("@/views/OperatManage/MessageManage/MessageDetails.vue")
         },
         {
-          path: '/NameList',
-          name: 'NameList',
-          component: () => import("@/views/BusinessManage/NameApprove/NameList.vue")
+          path: '/Look',
+          name: 'look',
+          component: () => import("@/views/BusinessManage/NameApprove/Look.vue")
         },
         {
           path: '/productManage',

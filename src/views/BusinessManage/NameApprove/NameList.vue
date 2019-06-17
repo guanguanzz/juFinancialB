@@ -78,7 +78,7 @@
             </table>
             <div class="block" style="margin-left: 40%;padding: 10px;">
                 <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                    :current-page.sync="currentPage" :page-size="100" layout="prev, pager, next, jumper" :total="1000">
+                    :current-page.sync="currentPage" :page-size="pageSize" layout="total,prev, pager, next, jumper" :total="total">
                 </el-pagination>
             </div>
         </div>
@@ -112,6 +112,7 @@
                 currentPage: 1,
                 formInline: {},
                 pageSize: 10, //每页条数
+                total:100,
                 params: {
                     pageNum: this.currentPage,
                     pageCount: this.pageSize,
@@ -158,7 +159,9 @@
             },
             seek() {
                 console.log('搜索');
+                console.log(this.params)
                  this.search(this.params);
+                console.log(this.params)
             },
             redact(el, item){
 
