@@ -122,25 +122,9 @@ export default new Router({
            component:()=>import("@/views/OperatManage/ContentManage/ContentLists.vue")
          },
          {
-          path:'/messageList',
-          name:'messageList',
-           component:()=>import("@/views/OperatManage/MessageList.vue")
-         },{
-          path:'/bankManage',
-          name:'bankManage',
-           component:()=>import("@/views/OperatManage/BankManage.vue")
-         },{
           path:'/paraManage',
           name:'paraManage',
            component:()=>import("@/views/OperatManage/ParaManage.vue")
-         },{
-          path:'/opinionFeed',
-          name:'opinionFeed',
-           component:()=>import("@/views/OperatManage/OpinionFeed.vue")
-         },{
-          path:'/editionManage',
-          name:'editionManage',
-           component:()=>import("@/views/OperatManage/EditionManage.vue")
          },{ //统计信息
           path:'/salesStatistic',
           name:'salesStatistic',
