@@ -126,7 +126,7 @@
     </el-row>
     <el-row>
       <el-col :span="24" class="button-group">
-        <el-button type="danger" icon="el-icon-delete" size="mini">清空</el-button>
+        <el-button type="danger" icon="el-icon-delete" size="mini" @click="clear()">清空</el-button>
         <el-button type="primary" icon="el-icon-search" v-on:click="getList()" size="mini">搜索</el-button>
       </el-col>
     </el-row>
@@ -135,7 +135,7 @@
     <div class="lists-panel">
       <div class="list-header">
         <strong>产品列表</strong>
-        <el-button size="mini" type="primary" icon="el-icon-plus">新增</el-button>
+        <el-button size="mini" type="primary" icon="el-icon-plus" @click="addData()">新增</el-button>
       </div>
       <div class="body-panel">
         <table>
@@ -160,21 +160,16 @@
             <td>{{list.recommend}}</td>
             <td>{{list.status}}</td>
             <td>
-              <el-button
-                size="mini"
-                @click="changeStatus(list.id,list.status)"
-              >{{list.status|upDownFilters}}</el-button>
-              <el-button size="mini">编辑</el-button>
+              <el-button size="mini">上架</el-button>
+              <el-button size="mini" @click="edit()">编辑</el-button>
             </td>
           </tr>
         </table>
         <el-row>
           <el-col :span="24" class="pagination">
             <el-pagination
-              @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :page-sizes="[5, 10, 20, 30]"
-              layout="total, sizes, prev, pager, next, jumper"
+              layout="total, prev, pager, next, jumper"
               :total="total"
             ></el-pagination>
           </el-col>
@@ -249,16 +244,34 @@ export default {
     getList: function() {
       var this_ = this;
       listAjax.getList(this.searchData).then(reap => {
-        console.log(reap);
         this_.lists = reap.data.data.product;
         this_.total = reap.data.data.page.total;
       });
     },
-    //每页数量事件
-    handleSizeChange(val) {
-      this.searchData.pageCount = val;
-      this.getList();
-    }, 
+    //新增
+    addData: function() {
+      this.$router.push("/addOrUpdate");
+    },
+    //编辑
+    edit: function(id) {
+      listAjax.getListById(id).then(reap => {
+        console.log(reap);
+        var data = JSON.stringify(reap.data.data);
+        console.log(data);
+        this.$router.push({
+          path: "/addOrUpdate",
+          query: { data: data }
+        });
+      });
+    },
+    //清空
+    clear: function() {
+      this.searchData = {
+        startAt: "",
+        status: ""
+      };
+      this.term = "1";
+    },
     //第几页事件
     handleCurrentChange(val) {
       this.searchData.pageNum = val;
